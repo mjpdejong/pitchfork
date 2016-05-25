@@ -1,7 +1,7 @@
 #PREFIX        = /opt/pacbio
 #WORKDIR       = /media/ssd_drive/pf/workspace
 #HAVE_CCACHE   = /opt/software/c/ccache/3.2.3/bin/ccache
-#HAVE_ZLIB     = /opt/software/z/zlib/1.2.8-cloudflare
+#HAVE_ZLIB     = /opt/software/z/zlib/1.2.8-cloudflare # For OSX, this can be installed to /usr via xcode-select --install
 #HAVE_PYTHON   = /opt/python-2.7.9/bin/python
 #HAVE_OPENBLAS = /opt/software/o/openblas/0.2.14
 #HAVE_BOOST    = /opt/software/b/boost/1.58
