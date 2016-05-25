@@ -25,12 +25,6 @@ do-build: $(_WRKSRC)/lib/libncurses.$(DYLIB)
 $(_WRKSRC)/lib/libncurses.$(DYLIB): | do-config
 	$(MAKE) -C $(_WRKSRC) >& build.log || $(PFHOME)/bin/diewith build.log
 do-install: $(PREFIX)/var/pkg/$(_NAME)
-$(PREFIX)/var/pkg/$(_NAME): | do-build
-	rm -rf $(STAGING)/$(_NAME)
-	$(MAKE) -C $(_WRKSRC) prefix=$(STAGING)/$(_NAME) install >& install.log || $(PFHOME)/bin/diewith install.log
-	ln -s libncurses.$(DYLIB) $(STAGING)/$(_NAME)/lib/libcurses.$(DYLIB)
-	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
-	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
 do-clean:
 	$(MAKE) -C $(_WRKSRC) clean
 	rm -f build.log install.log
@@ -40,9 +34,17 @@ do-distclean:
 	rm -f $(_WRKSRC)/config.log config.log
 do-flush:
 	rm -rf $(_WRKSRC) || true
-ifneq ($(origin HAVE_NCURSES),undefined)
+ifeq ($(origin HAVE_NCURSES),undefined)
+$(PREFIX)/var/pkg/$(_NAME): | do-build
+	rm -rf $(STAGING)/$(_NAME)
+	$(MAKE) -C $(_WRKSRC) prefix=$(STAGING)/$(_NAME) install >& install.log || $(PFHOME)/bin/diewith install.log
+	ln -s libncurses.$(DYLIB) $(STAGING)/$(_NAME)/lib/libcurses.$(DYLIB)
+	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
+	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
 _NCURSES:=$(shell ../../../bin/checkNCURSES $(HAVE_NCURSES))
-provided:
+else
+provided: $(PREFIX)/var/pkg/$(_NAME)
+$(PREFIX)/var/pkg/$(_NAME):
 	rm -rf $(STAGING)/$(_NAME)
 	mkdir -p $(STAGING)/$(_NAME)/include
 	mkdir -p $(STAGING)/$(_NAME)/lib
@@ -58,5 +60,5 @@ provided:
              \) -exec cp -a {} $(STAGING)/$(_NAME)/lib/ \;
 	cp -a $(_NCURSES)/share/terminfo $(STAGING)/$(_NAME)/share/
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
-	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
+	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
 endif
