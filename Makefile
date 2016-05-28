@@ -133,9 +133,9 @@ GenomicConsensus: pbcore pbcommand numpy h5py ConsensusCore
 smrtflow:         sbt
 pbtranscript:     scipy networkx pysam pbcore pbcommand pbcoretools pbdagcon
 #
-pblaa:         htslib pbbam seqan pbsparse pbccs ConsensusCore2 pbchimera
-pbchimera:     seqan cmake
-ppa:           boost cmake pbbam htslib
+pblaa:             htslib pbbam seqan pbsparse pbccs ConsensusCore2 pbchimera
+pbchimera:         seqan cmake
+ppa:               boost cmake pbbam htslib
 trim_isoseq_polyA: boost cmake
 
 # end of dependencies
@@ -146,12 +146,11 @@ bax2bam: blasr
 reseq-core: \
        pbsmrtpipe pbalign blasr pbreports GenomicConsensus pbbam pbcoretools pbccs
 isoseq-core: \
-       reseq-core pbtranscript trim_isoseq_polyA hmmer gmap ipython biopython cram nose
+       reseq-core pbtranscript trim_isoseq_polyA hmmer gmap biopython cram nose
 world: \
-       reseq-core ConsensusCore2 pbfalcon kineticsTools \
-       hmmer      gmap           ssw_lib  mash          \
-       ipython    biopython      \
-       cram       nose
+       reseq-core  ConsensusCore2 pbfalcon kineticsTools \
+       isoseq-core ssw_lib        mash                   \
+       ipython     cram           nose
 
 # rules
 ifeq ($(origin HAVE_CCACHE),undefined)
