@@ -441,5 +441,7 @@ distclean: distclean-blasr_libcpp distclean-blasr distclean-htslib distclean-seq
 samtools-1.3.1:         ccache zlib ncurses
 samtools-1.3.1:
 	$(MAKE) -C ports/thirdparty/$@ do-install
+pbbamr:
+	$(MAKE) -C ports/pacbio/$@ do-install
 
 .PHONY: ConsensusCore GenomicConsensus MarkupSafe appnope avro biopython blasr boost ccache cmake Cogent cram cycler cython daligner dazzdb decorator default docopt ecdsa fabric gmap gmock gnureadline gtest hmmer htslib ipython isodate jsonschema kineticsTools libpng matplotlib modules ncurses networkx nim nose numpy openblas openssl paramiko pbalign pbbam pbccs pbchimera pbcommand pbcore pbcoretools pbdagcon pbfalcon pblaa pbreports pbsmrtpipe pbsparse pexpect pickleshare pip ppa ptyprocess pycrypto pydot pyparsing pypeFLOW pysam python pytz pyxb rdfextras rdflib readline requests samtools scipy seqan simplegeneric six swig tcl traitlets world xmlbuilder zlib pbh5tools tabulate
