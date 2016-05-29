@@ -13,7 +13,7 @@ else
 fi
 R_VER=`R --slave --vanilla -e 'cat(R.Version()$major,R.Version()$minor, sep=".")'`
 if (echo 3.2.0 && echo $R_VER)|sort -t. -k1,2|head -1|grep 3.2.0 >& /dev/null ; then
-    echo $R
+    $R --slave --vanilla -e 'cat(file.path(R.home("bin"), "R"))' && echo
 else
     croak "Error: incompatible R version"
 fi
