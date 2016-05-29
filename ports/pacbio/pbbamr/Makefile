@@ -6,7 +6,12 @@ $(_NAME)_REPO    ?= git://github.com/PacificBiosciences/pbbamr
 _WRKSRC           = $(WORKDIR)/$(_NAME)
 $(_NAME)_VERSION ?= HEAD
 R                := $(shell ../../../bin/checkR $(HAVE_R))
-R_LIBS           := $(PREFIX)/lib/R/library:$(shell $(R) --slave --vanilla -e 'cat(.Library)')
+_tmpvar          := $(if $(shell which $(R)),exists,$(error "unable to run $(R)"))
+ifneq ($(origin HAVE_R),undefined)
+  R_LIBS         := $(PREFIX)/lib/R/library:$(shell $(HAVE_R) --slave --vanilla -e 'cat(.Library)')
+else
+  R_LIBS         := $(PREFIX)/lib/R/library:$(shell $(R)      --slave --vanilla -e 'cat(.Library)')
+endif
 
 # Local works
 do-extract:

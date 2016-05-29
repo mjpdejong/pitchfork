@@ -4,7 +4,12 @@ include ../../../mk/pitchfork.mk
 _NAME             = Rcpp
 _WRKSRC           = $(WORKDIR)/$(_NAME)
 R                := $(shell ../../../bin/checkR $(HAVE_R))
-R_LIBS           := $(PREFIX)/lib/R/library:$(shell $(R) --slave --vanilla -e 'cat(.Library)')
+_tmpvar          := $(if $(shell which $(R)),exists,$(error "unable to run $(R)"))
+ifneq ($(origin HAVE_R),undefined)
+  R_LIBS         := $(PREFIX)/lib/R/library:$(shell $(HAVE_R) --slave --vanilla -e 'cat(.Library)')
+else
+  R_LIBS         := $(PREFIX)/lib/R/library:$(shell $(R)      --slave --vanilla -e 'cat(.Library)')
+endif
 
 # Local works
 do-config: $(_WRKSRC)/install-pbbamr.R
