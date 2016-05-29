@@ -441,6 +441,11 @@ distclean: distclean-blasr_libcpp distclean-blasr distclean-htslib distclean-seq
 samtools-1.3.1:         ccache zlib ncurses
 samtools-1.3.1:
 	$(MAKE) -C ports/thirdparty/$@ do-install
+# R (experimental)
+Rcpp:   ccache
+pbbamr: ccache Rcpp
+Rcpp:
+	$(MAKE) -C ports/thirdparty/$@ do-install
 pbbamr:
 	$(MAKE) -C ports/pacbio/$@ do-install
 
