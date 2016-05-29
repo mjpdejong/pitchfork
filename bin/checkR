@@ -1,0 +1,19 @@
+#!/bin/bash
+croak(){
+    echo "$*"
+    exit 1
+}
+if [ "$1" ]; then
+    if [ -e "$1" ]; then
+      R=$1
+    fi
+else
+    which R >& /dev/null || croak "Error: R Not found"
+    R=`which R`
+fi
+R_VER=`R --slave --vanilla -e 'cat(R.Version()$major,R.Version()$minor, sep=".")'`
+if (echo 3.2.0 && echo $R_VER)|sort -t. -k1,2|head -1|grep 3.2.0 >& /dev/null ; then
+    echo $R
+else
+    croak "Error: incompatible R version"
+fi
