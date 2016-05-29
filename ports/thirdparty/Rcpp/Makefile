@@ -19,7 +19,7 @@ $(_WRKSRC)/install-pbbamr.R:
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-config
 	mkdir -p $(PREFIX)/lib/R/library
-	R_LIBS=$(R_LIBS) $(R)script $(_WRKSRC)/install-pbbamr.R
+	R_LIBS=$(R_LIBS) $(R) -f $(_WRKSRC)/install-pbbamr.R
 	cd $(PREFIX) && find lib/R/library/$(_NAME) > $@
 do-distclean:
 	cd $(_WRKSRC) && $(GIT) clean -xdf
