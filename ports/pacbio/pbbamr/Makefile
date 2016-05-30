@@ -26,7 +26,8 @@ endif
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	mkdir -p $(PREFIX)/lib/R/library
-	R_LIBS=$(R_LIBS) $(R) CMD INSTALL $(_WRKSRC)
+	R_LIBS=$(R_LIBS) ZLIB_ROOT=$(PREFIX) \
+            $(R) CMD INSTALL $(_WRKSRC)
 	cd $(PREFIX) && find lib/R/library/$(_NAME) > $@
 do-distclean:
 	cd $(_WRKSRC) && $(GIT) clean -xdf
