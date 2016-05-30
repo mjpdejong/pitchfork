@@ -443,7 +443,7 @@ samtools-1.3.1:
 	$(MAKE) -C ports/thirdparty/$@ do-install
 # R (experimental)
 Rcpp:   ccache
-pbbamr: ccache Rcpp
+pbbamr: Rcpp zlib
 Rcpp:
 	$(MAKE) -C ports/thirdparty/$@ do-install
 pbbamr:
