@@ -24,7 +24,7 @@ else
 	ln -sfn $($(_NAME)_REPO) $(_WRKSRC)
 endif
 do-install: $(PREFIX)/var/pkg/$(_NAME)
-$(PREFIX)/var/pkg/$(_NAME):
+$(PREFIX)/var/pkg/$(_NAME): | do-fetch
 	mkdir -p $(PREFIX)/lib/R/library
 	R_LIBS=$(R_LIBS) ZLIB_ROOT=$(PREFIX) \
             $(R) CMD INSTALL $(_WRKSRC)
