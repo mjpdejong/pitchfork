@@ -37,9 +37,10 @@ endif
 ARCH      := $(shell $(UNAME) -m)
 OPSYS     := $(shell $(UNAME) -s)
 
-CFLAGS    ?= -fPIC -I$(PREFIX)/include
 ifneq ($(OPSYS),Darwin)
-CFLAGS    += -static-libstdc++
+CFLAGS    ?= -fPIC -I$(PREFIX)/include -static-libstdc++
+else
+CFLAGS    ?= -fPIC -I$(PREFIX)/include
 endif
 CXXFLAGS  ?= $(CFLAGS)
 LDFLAGS   ?= -Wl,-rpath,'$$ORIGIN/../lib',-rpath,'$$$$ORIGIN/../lib' -L$(PREFIX)/lib
