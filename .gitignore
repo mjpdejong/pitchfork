@@ -2,6 +2,7 @@
 /settings.mk
 /workspace/
 /deployment/
+/deployment.pip/
 /staging/
 *.log
 *.tar.gz
