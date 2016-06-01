@@ -35,7 +35,11 @@ $(PREFIX)/var/pkg/$(_NAME): | do-fetch do-config
 	R_LIBS="$(R_LIBS)" $(R) -f $(_WRKSRC)/install-pbbamr.R
 	R_LIBS=$(R_LIBS) \
             $(R) CMD INSTALL $(_WRKSRC)
-	cd $(PREFIX) && find lib/R/library/$(_NAME) > $@
+	cd $(PREFIX) && \
+        find lib/R/library/argparser \
+             lib/R/library/logging \
+             lib/R/library/pryr \
+             lib/R/library/$(_NAME) > $@
 do-distclean:
 	cd $(_WRKSRC) && $(GIT) clean -xdf
 do-flush:
