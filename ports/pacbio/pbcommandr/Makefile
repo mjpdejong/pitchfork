@@ -26,9 +26,10 @@ endif
 do-config: $(_WRKSRC)/install-pbbamr.R
 $(_WRKSRC)/install-pbbamr.R:
 	mkdir -p $(_WRKSRC)
-	echo 'install.packages("argparser", repos="http://cran.r-project.org")' >  $(_WRKSRC)/install-pbbamr.R
-	echo 'install.packages("logging",   repos="http://cran.r-project.org")' >> $(_WRKSRC)/install-pbbamr.R
-	echo 'install.packages("pryr",      repos="http://cran.r-project.org")' >> $(_WRKSRC)/install-pbbamr.R
+	echo 'install.packages("data.table", repos="http://cran.r-project.org")' >  $(_WRKSRC)/install-pbbamr.R
+	echo 'install.packages("argparser",  repos="http://cran.r-project.org")' >  $(_WRKSRC)/install-pbbamr.R
+	echo 'install.packages("logging",    repos="http://cran.r-project.org")' >> $(_WRKSRC)/install-pbbamr.R
+	echo 'install.packages("pryr",       repos="http://cran.r-project.org")' >> $(_WRKSRC)/install-pbbamr.R
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-fetch do-config
 	mkdir -p $(PREFIX)/lib/R/library
@@ -36,7 +37,9 @@ $(PREFIX)/var/pkg/$(_NAME): | do-fetch do-config
 	R_LIBS=$(R_LIBS) \
             $(R) CMD INSTALL $(_WRKSRC)
 	cd $(PREFIX) && \
-        find lib/R/library/argparser \
+        find \
+             lib/R/library/data.table \
+             lib/R/library/argparser \
              lib/R/library/logging \
              lib/R/library/pryr \
              lib/R/library/$(_NAME) > $@

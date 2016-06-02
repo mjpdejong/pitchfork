@@ -444,7 +444,6 @@ samtools-1.3.1:
 # R (experimental)
 Rcpp:   ccache
 pbbamr: Rcpp zlib
-pbcommandr: Rcpp
 Rcpp:
 	$(MAKE) -C ports/thirdparty/$@ do-install
 pbbamr:
