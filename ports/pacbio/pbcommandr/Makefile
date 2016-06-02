@@ -27,7 +27,7 @@ do-config: $(_WRKSRC)/install-pbbamr.R
 $(_WRKSRC)/install-pbbamr.R:
 	mkdir -p $(_WRKSRC)
 	echo 'install.packages("data.table", repos="http://cran.r-project.org")' >  $(_WRKSRC)/install-pbbamr.R
-	echo 'install.packages("argparser",  repos="http://cran.r-project.org")' >  $(_WRKSRC)/install-pbbamr.R
+	echo 'install.packages("argparser",  repos="http://cran.r-project.org")' >> $(_WRKSRC)/install-pbbamr.R
 	echo 'install.packages("logging",    repos="http://cran.r-project.org")' >> $(_WRKSRC)/install-pbbamr.R
 	echo 'install.packages("pryr",       repos="http://cran.r-project.org")' >> $(_WRKSRC)/install-pbbamr.R
 do-install: $(PREFIX)/var/pkg/$(_NAME)
