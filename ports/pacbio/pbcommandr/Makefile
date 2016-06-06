@@ -30,6 +30,8 @@ $(_WRKSRC)/install-pbbamr.R:
 	echo 'install.packages("argparser",  repos="http://cran.r-project.org")' >> $(_WRKSRC)/install-pbbamr.R
 	echo 'install.packages("logging",    repos="http://cran.r-project.org")' >> $(_WRKSRC)/install-pbbamr.R
 	echo 'install.packages("pryr",       repos="http://cran.r-project.org")' >> $(_WRKSRC)/install-pbbamr.R
+	echo 'install.packages("uuid",       repos="http://cran.r-project.org")' >> $(_WRKSRC)/install-pbbamr.R
+	echo 'install.packages("lintr",      repos="http://cran.r-project.org")' >> $(_WRKSRC)/install-pbbamr.R
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-fetch do-config
 	mkdir -p $(PREFIX)/lib/R/library
