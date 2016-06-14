@@ -37,6 +37,7 @@ $(_WRKSRC)/_build/Makefile: | do-fetch
               -DZLIB_INCLUDE_DIRS=$(ZLIB_ROOT)/include \
               -DZLIB_LIBRARIES=$(ZLIB_ROOT)/lib/libz.$(DYLIB) \
               -DGMOCK_RootDir=$(PREFIX)/src/gmock \
+              -DPacBioConsensus_RootDir=$(PWD)/../ConsensusCore2 \
             ..
 do-build:
 	$(MAKE) -C $(_WRKSRC)/_build
