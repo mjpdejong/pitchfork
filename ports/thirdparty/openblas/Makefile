@@ -19,7 +19,7 @@ $(_FILE):
 	$(PFHOME)/bin/pitchfork fetch --url $(_URL)/$@
 do-build: $(_WRKSRC)/libopenblas.$(DYLIB)
 $(_WRKSRC)/libopenblas.$(DYLIB): | do-extract
-	$(MAKE) -C $(_WRKSRC) >& build.log || $(PFHOME)/bin/diewith build.log
+	$(MAKE) -C $(_WRKSRC) NO_PARALLEL_MAKE=1 >& build.log || $(PFHOME)/bin/diewith build.log
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
 	rm -rf $(STAGING)/$(_NAME)

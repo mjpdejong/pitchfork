@@ -41,8 +41,8 @@ $(PREFIX)/var/pkg/$(_NAME): | do-build
 	ln -s libncurses.$(DYLIB) $(STAGING)/$(_NAME)/lib/libcurses.$(DYLIB)
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
-_NCURSES:=$(shell ../../../bin/checkNCURSES $(HAVE_NCURSES))
 else
+_NCURSES:=$(shell ../../../bin/checkNCURSES $(HAVE_NCURSES))
 provided: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	rm -rf $(STAGING)/$(_NAME)

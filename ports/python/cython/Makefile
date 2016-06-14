@@ -1,8 +1,8 @@
 include ../../../mk/pitchfork.mk
 
 # Local variables
-_NAME   = Cython-0.23.4
-_URL    = http://cython.org/release
+_NAME   = Cython-0.24
+_URL    = https://pypi.python.org/packages/source/C/Cython
 _WRKSRC = $(WORKDIR)/$(_NAME)
 LDFLAGS = -L$(PREFIX)/lib
 export LDFLAGS

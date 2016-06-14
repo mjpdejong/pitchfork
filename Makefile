@@ -133,9 +133,9 @@ GenomicConsensus: pbcore pbcommand numpy h5py ConsensusCore
 smrtflow:         sbt
 pbtranscript:     scipy networkx pysam pbcore pbcommand pbcoretools pbdagcon
 #
-pblaa:         htslib pbbam seqan pbsparse pbccs ConsensusCore2 pbchimera
-pbchimera:     seqan cmake
-ppa:           boost cmake pbbam htslib
+pblaa:             htslib pbbam seqan pbsparse pbccs ConsensusCore2 pbchimera
+pbchimera:         seqan cmake
+ppa:               boost cmake pbbam htslib
 trim_isoseq_polyA: boost cmake
 
 # end of dependencies
@@ -146,12 +146,11 @@ bax2bam: blasr
 reseq-core: \
        pbsmrtpipe pbalign blasr pbreports GenomicConsensus pbbam pbcoretools pbccs
 isoseq-core: \
-       reseq-core pbtranscript trim_isoseq_polyA hmmer gmap ipython biopython cram nose
+       reseq-core pbtranscript trim_isoseq_polyA hmmer gmap biopython cram nose
 world: \
-       reseq-core ConsensusCore2 pbfalcon kineticsTools \
-       hmmer      gmap           ssw_lib  mash          \
-       ipython    biopython      \
-       cram       nose
+       reseq-core  ConsensusCore2 pbfalcon kineticsTools \
+       isoseq-core ssw_lib        mash                   \
+       ipython     cram           nose
 
 # rules
 ifeq ($(origin HAVE_CCACHE),undefined)
@@ -442,5 +441,14 @@ distclean: distclean-blasr_libcpp distclean-blasr distclean-htslib distclean-seq
 samtools-1.3.1:         ccache zlib ncurses
 samtools-1.3.1:
 	$(MAKE) -C ports/thirdparty/$@ do-install
+# R (experimental)
+Rcpp:   ccache
+pbbamr: Rcpp zlib
+Rcpp:
+	$(MAKE) -C ports/thirdparty/$@ do-install
+pbbamr:
+	$(MAKE) -C ports/pacbio/$@ do-install
+pbcommandr:
+	$(MAKE) -C ports/pacbio/$@ do-install
 
 .PHONY: ConsensusCore GenomicConsensus MarkupSafe appnope avro biopython blasr boost ccache cmake Cogent cram cycler cython daligner dazzdb decorator default docopt ecdsa fabric gmap gmock gnureadline gtest hmmer htslib ipython isodate jsonschema kineticsTools libpng matplotlib modules ncurses networkx nim nose numpy openblas openssl paramiko pbalign pbbam pbccs pbchimera pbcommand pbcore pbcoretools pbdagcon pbfalcon pblaa pbreports pbsmrtpipe pbsparse pexpect pickleshare pip ppa ptyprocess pycrypto pydot pyparsing pypeFLOW pysam python pytz pyxb rdfextras rdflib readline requests samtools scipy seqan simplegeneric six swig tcl traitlets world xmlbuilder zlib pbh5tools tabulate

@@ -14,7 +14,7 @@ do-fetch: $(_WRKSRC)
 $(_WRKSRC):
 ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
-	$(GIT) -C $(_WRKSRC) checkout $($(_NAME)_VERSION)
+	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
 else
 	ln -sfn $($(_NAME)_REPO) $(_WRKSRC)
 endif
@@ -37,6 +37,7 @@ $(_WRKSRC)/_build/Makefile: | do-fetch
               -DZLIB_INCLUDE_DIRS=$(ZLIB_ROOT)/include \
               -DZLIB_LIBRARIES=$(ZLIB_ROOT)/lib/libz.$(DYLIB) \
               -DGMOCK_RootDir=$(PREFIX)/src/gmock \
+              -DPacBioConsensus_RootDir=$(WORKDIR)/ConsensusCore2 \
             ..
 do-build:
 	$(MAKE) -C $(_WRKSRC)/_build
