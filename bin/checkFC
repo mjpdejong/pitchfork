@@ -21,9 +21,12 @@ gfortran*)
   exit 0
   ;;
 g95*)
-  myVErsion=`reportVersion $FC|sed -n -e 's/.*(//;s/).*//;s/!//;s/g95//;s/ //g;1p'`
+  myVersion=`reportVersion $FC|sed -n -e 's/.*(//;s/).*//;s/!//;s/g95//;s/ //g;1p'`
   exit 0
   ;;
+ifort*)
+  myVersion=`reportVersion $FC`
+  exit 0
 *)
   echo "[WARNING] unrecognized FC, please send us info if you think this FC is valid"
   exit 0

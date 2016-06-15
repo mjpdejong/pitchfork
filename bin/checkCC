@@ -28,6 +28,10 @@ clang*)
   myVersion=`reportVersion $CC`
   (echo 3.3 && echo $myVersion)|sort -t. -k1,2|head -1|grep 3.3 >& /dev/null && exit 0
   ;;
+icc*)
+  myVersion=`reportVersion $CC`
+  (echo 11.0.0 && echo $myVersion)|sort -t. -k1,2|head -1|grep 11.0.0 >& /dev/null && exit 0
+  ;;
 *)
   die "[ERROR] unrecognized CC, please send us info if you think this CC is valid"
   ;;
