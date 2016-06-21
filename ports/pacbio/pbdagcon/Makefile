@@ -35,9 +35,9 @@ $(_WRKSRC)/build/defines.mk: | do-fetch
                HTSLIB_LIB=$(PREFIX)/src/htslib/lib \
              HDF5_INCLUDE=$(HDF5_ROOT)/include \
                  HDF5_LIB=$(HDF5_ROOT)/lib \
-             DALIGNER_SRC=$(_WRKSRC)/../daligner \
-              DAZZ_DB_SRC=$(_WRKSRC)/../dazzdb \
-        $(SYSPYTHON) configure.py --build-dir=$(_WRKSRC)/build
+             DALIGNER_SRC=$(WORKDIR)/daligner \
+              DAZZ_DB_SRC=$(WORKDIR)/dazzdb \
+        ./configure.py --build-dir=$(_WRKSRC)/build
 do-build:
 	$(MAKE) -C $(_WRKSRC)/build
 do-install: $(PREFIX)/var/pkg/$(_NAME)
