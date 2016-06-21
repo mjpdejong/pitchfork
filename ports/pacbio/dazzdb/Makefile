@@ -12,8 +12,10 @@ $(_WRKSRC):
 ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
 	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
+INSTALL_RULE:=install
 else
 	ln -sfn $($(_NAME)_REPO) $(_WRKSRC)
+INSTALL_RULE:=symlink
 endif
 do-config:
 	mkdir -p $(_WRKSRC)/build
@@ -25,12 +27,7 @@ do-build:
 	$(MAKE) -C $(_WRKSRC)/build
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
-	cd $(_WRKSRC)/build && tar cf - DBrm DBshow DBsplit DBstats fasta2DB | tar xf - -C $(PREFIX)/bin/
-	cd $(_WRKSRC)/build && tar cf - *.a                                  | tar xf - -C $(PREFIX)/lib/
-	cd $(_WRKSRC)       && tar cf - *.h                                  | tar xf - -C $(PREFIX)/include/
-	cd $(_WRKSRC)/build && find DBrm DBshow DBsplit DBstats fasta2DB | awk '{print "$(PREFIX)/bin/"$$1}'     >  $@
-	cd $(_WRKSRC)/build && find *.a                                  | awk '{print "$(PREFIX)/lib/"$$1}'     >> $@
-	cd $(_WRKSRC)       && find *.h                                  | awk '{print "$(PREFIX)/include/"$$1}' >> $@
+	$(MAKE) -C $(_WRKSRC)/build ${INSTALL_RULE}
 do-clean:
 	$(MAKE) -C $(_WRKSRC)/build clean
 do-distclean:
