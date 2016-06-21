@@ -130,7 +130,7 @@ pypeFLOW:         rdflib rdfextras
 pbalign:          pbcore samtools blasr pbcommand
 ConsensusCore:    numpy boost swig cmake
 ConsensusCore2:   numpy boost swig cmake
-GenomicConsensus: pbcore pbcommand numpy h5py ConsensusCore
+GenomicConsensus: pbcore pbcommand numpy h5py ConsensusCore ConsensusCore2
 smrtflow:         sbt
 pbtranscript:     scipy networkx pysam pbcore pbcommand pbcoretools pbdagcon
 #
