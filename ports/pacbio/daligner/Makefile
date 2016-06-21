@@ -12,8 +12,10 @@ $(_WRKSRC):
 ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
 	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
+INSTALL_RULE:=install
 else
 	ln -sfn $($(_NAME)_REPO) $(_WRKSRC)
+INSTALL_RULE:=symlink
 endif
 do-config:
 	mkdir -p $(_WRKSRC)/build
@@ -25,13 +27,8 @@ do-build:
 	$(MAKE) -C $(_WRKSRC)/build
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
-	rm -rf $(STAGING)/$(_NAME)
-	mkdir -p $(STAGING)/$(_NAME)
-	$(MAKE) -C $(_WRKSRC)/build DEST_DIR=$(STAGING)/$(_NAME) install
-	cd $(STAGING)/$(_NAME) && \
-        tar cf - * \
-        | tar xvf - -C $(PREFIX)/bin/ \
-	| awk '{print "bin/"$$1}' > $@
+	$(MAKE) -C $(_WRKSRC)/build ${INSTALL_RULE}
+	touch $@
 do-clean:
 	$(MAKE) -C $(_WRKSRC)/build clean
 do-distclean:

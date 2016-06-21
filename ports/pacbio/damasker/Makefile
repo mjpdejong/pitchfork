@@ -1,8 +1,8 @@
 include ../../../mk/pitchfork.mk
 
 # Local variables
-_NAME             = dazzdb
-$(_NAME)_REPO    ?= git://github.com/PacificBiosciences/DAZZ_DB
+_NAME             = damasker
+$(_NAME)_REPO    ?= git://github.com/PacificBiosciences/DAMASKER
 _WRKSRC           = $(WORKDIR)/$(_NAME)
 $(_NAME)_VERSION ?= HEAD
 
@@ -21,7 +21,7 @@ do-config:
 	mkdir -p $(_WRKSRC)/build
 	echo PREFIX:=$(PREFIX) > $(_WRKSRC)/build/Makefile
 	echo CC:=$(CC) >> $(_WRKSRC)/build/Makefile
-	echo AR:=$(AR) >> $(_WRKSRC)/build/Makefile
+	echo LIBDIRS:=$(PREFIX)/lib >> $(_WRKSRC)/build/Makefile
 	echo include ../GNUmakefile >> $(_WRKSRC)/build/Makefile
 do-build:
 	$(MAKE) -C $(_WRKSRC)/build
@@ -33,5 +33,5 @@ do-clean:
 	$(MAKE) -C $(_WRKSRC)/build clean
 do-distclean:
 	cd $(_WRKSRC) && $(GIT) clean -xdf
-do-flash:
+do-flush:
 	rm -rf $(_WRKSRC)
