@@ -18,7 +18,7 @@ ifeq ($(wildcard $($(_NAME)_REPO)),)
 DEVOPT =
 else
 	ln -sfn $($(_NAME)_REPO) $(_WRKSRC)
-DEVOPT = -e
+#DEVOPT = -e
 endif
 do-config: $(_WRKSRC)/_build/Makefile
 $(_WRKSRC)/_build/Makefile: | do-fetch
