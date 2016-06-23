@@ -45,31 +45,6 @@ $(PREFIX)/var/pkg/$(_NAME): | do-fetch do-config
              lib/R/library/logging \
              lib/R/library/pryr \
              lib/R/library/uuid \
-             lib/R/library/lintr \
-             lib/R/library/xtable \
-             lib/R/library/iterators \
-             lib/R/library/pkgmaker \
-             lib/R/library/registry \
-             lib/R/library/rngtools \
-             lib/R/library/gridBase \
-             lib/R/library/foreach \
-             lib/R/library/doParallel \
-             lib/R/library/lazyeval \
-             lib/R/library/ggplot2 \
-             lib/R/library/praise \
-             lib/R/library/NMF \
-             lib/R/library/irlba \
-             lib/R/library/evaluate \
-             lib/R/library/formatR \
-             lib/R/library/highr \
-             lib/R/library/markdown \
-             lib/R/library/yaml \
-             lib/R/library/rex \
-             lib/R/library/crayon \
-             lib/R/library/stringdist \
-             lib/R/library/testthat \
-             lib/R/library/igraph \
-             lib/R/library/knitr \
              lib/R/library/$(_NAME) > $@
 do-distclean:
 	cd $(_WRKSRC) && $(GIT) clean -xdf
