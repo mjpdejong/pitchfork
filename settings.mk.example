@@ -1,9 +1,20 @@
+## What we use internally
 #PREFIX        = /opt/pacbio
 #WORKDIR       = /media/ssd_drive/pf/workspace
 #HAVE_CCACHE   = /opt/software/c/ccache/3.2.3/bin/ccache
-#HAVE_ZLIB     = /opt/software/z/zlib/1.2.8-cloudflare # For OSX, this can be installed to /usr via xcode-select --install
+#HAVE_ZLIB     = /opt/software/z/zlib/1.2.8-cloudflare
+##             For OSX, ZLIB can be installed to /usr via xcode-select --install
 #HAVE_PYTHON   = /opt/python-2.7.9/bin/python
 #HAVE_OPENBLAS = /opt/software/o/openblas/0.2.14
 #HAVE_BOOST    = /opt/software/b/boost/1.58
 #HAVE_CMAKE    = /opt/software/c/cmake/3.2.2/bin/cmake
 #HAVE_HDF5     = /opt/software/h/hdf5-tools/1.8.12
+#
+## Contributed by @cwarden45 (with ccache, boost, and hdf5 installed via osx homebrew) 
+#PREFIX      = /opt/pacbio
+#WORKDIR     = /opt/pitchfork
+#HAVE_PYTHON = /usr/local/bin/python
+#HAVE_CMAKE  = /usr/local/bin/cmake
+#HAVE_CCACHE = /usr/local/Cellar/ccache/3.2.3/bin/ccache
+#HAVE_BOOST  = /usr/local/Cellar/boost/1.60.0_1/include
+#HAVE_HDF5   = /usr/local/Cellar/hdf5/1.8.16_1
