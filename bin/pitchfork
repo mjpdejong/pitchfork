@@ -257,7 +257,12 @@ def pitchfork(args):
                     backticks('md5sum -c MD5SUM')
                     return
                 except:
-                    pass
+                    try:
+                        os.remove(_prefetch)
+                    except:
+                        pass
+                    log('[ERROR] checksum failed.')
+                    raise Exception()
             try:
                 print "fetching %s" % _url
                 backticks('curl -L -O %s' % _url)
@@ -268,6 +273,7 @@ def pitchfork(args):
                 backticks('cp %s %s/%s' % (_archive, _distfiles, _prjname))
                 return
             except:
+                log('[ERROR] checksum failed.')
                 raise Exception()
 
         log('[ERROR] you need to specify --url')
