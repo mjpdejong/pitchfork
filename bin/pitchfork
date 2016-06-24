@@ -251,7 +251,8 @@ def pitchfork(args):
                 _out, _exit, _err = backticks('rm -f ./%s' % os.path.basename(_prefetch))
                 _out, _exit, _err = backticks('ln -sfn %s ./' % _prefetch)
                 _out, _exit, _err = backticks('md5sum -c MD5SUM')
-                if _exit == 0: return
+                if _exit == 0:
+                    return
                 try:
                     os.remove(_prefetch)
                 except:
@@ -260,10 +261,12 @@ def pitchfork(args):
                 raise Exception()
             print "fetching %s" % _url
             _out, _exit, _err = backticks('curl -L -O %s' % _url)
-            if _exit != 0: raise Exception()
+            if _exit != 0:
+                raise Exception()
             _out, _exit, _err = backticks('md5sum -c MD5SUM')
             _out, _exit, _err = backticks('cp %s %s/%s' % (_archive, _distfiles, _prjname))
-            if _exit == 0: return
+            if _exit == 0:
+                return
             log('[ERROR] checksum failed.')
             raise Exception()
 
@@ -284,4 +287,3 @@ def main(argv=sys.argv):
 
 if __name__ == '__main__':
     sys.exit(main())
-# vim:ts=4:sw=4:expandtab
