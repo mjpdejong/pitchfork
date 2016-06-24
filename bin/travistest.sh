@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+/bin/ls -lart ${HOME}/distfiles
+exit $?
 . ${HOME}/local/setup-env.sh
 set -ex
 
