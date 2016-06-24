@@ -217,16 +217,6 @@ def pitchfork(args):
         myargs = vars(args)
 
         _distfiles = ''
-        if os.path.exists('%s/settings.mk' % _projhome):
-            for line in open('%s/settings.mk' % _projhome, 'r'):
-                if line.lstrip().startswith('#'):
-                    continue
-                if 'DISFILES' in line.strip():
-                    if line.strip().split('=')[0].strip() == 'DISTFILES':
-                        _distfiles = line.strip().split('=')[1].strip()
-                        _distfiles = _distfiles.replace('${HOME}',os.getenv('HOME'))
-                        _distfiles = _distfiles.replace('$(HOME)',os.getenv('HOME'))
-                    break
         if 'DISTFILES' in os.environ:
             _distfiles = "%s" % os.environ['DISTFILES']
         elif os.path.exists('%s/settings.mk' % _projhome):
@@ -234,6 +224,8 @@ def pitchfork(args):
                 if 'DISTFILES' in line.strip():
                     if line.strip().split('=')[0].strip() == 'DISTFILES':
                         _distfiles = line.strip().split('=')[1].strip()
+                        _distfiles = _distfiles.replace('${HOME}',os.getenv('HOME'))
+                        _distfiles = _distfiles.replace('$(HOME)',os.getenv('HOME'))
                     break
         if os.path.exists(_distfiles):
             pass
@@ -252,7 +244,7 @@ def pitchfork(args):
                 pass
             else:
                 try:
-                    print '%s/%s' % (_distfiles, _prjname)
+                    # print '%s/%s' % (_distfiles, _prjname)
                     os.mkdir('%s/%s' % (_distfiles, _prjname))
                 except:
                     raise Exception()
