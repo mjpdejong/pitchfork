@@ -28,6 +28,10 @@ do-build:
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
 	$(MAKE) -C $(_WRKSRC)/build ${INSTALL_RULE}
+	cp \
+           $(_WRKSRC)/DB.h \
+           $(_WRKSRC)/QV.h \
+             $(PREFIX)/include/
 	touch $@
 do-clean:
 	$(MAKE) -C $(_WRKSRC)/build clean
