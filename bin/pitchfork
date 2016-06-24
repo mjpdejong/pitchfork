@@ -158,8 +158,8 @@ def pitchfork(args):
             if 'PREFIX' in line.strip():
                 if line.strip().split('=')[0].strip() == 'PREFIX':
                     _prefix = line.strip().split('=')[1].strip()
-                    _prefix = _prefix.replace('${HOME}',os.getenv('HOME'))
-                    _prefix = _prefix.replace('$(HOME)',os.getenv('HOME'))
+                    _prefix = _prefix.replace('${HOME}', os.getenv('HOME'))
+                    _prefix = _prefix.replace('$(HOME)', os.getenv('HOME'))
                 break
     if 'PREFIX' in os.environ:
         _prefix = "%s" % os.environ['PREFIX']
@@ -221,8 +221,8 @@ def pitchfork(args):
                 if 'DISTFILES' in line.strip():
                     if line.strip().split('=')[0].strip() == 'DISTFILES':
                         _distfiles = line.strip().split('=')[1].strip()
-                        _distfiles = _distfiles.replace('${HOME}',os.getenv('HOME'))
-                        _distfiles = _distfiles.replace('$(HOME)',os.getenv('HOME'))
+                        _distfiles = _distfiles.replace('${HOME}', os.getenv('HOME'))
+                        _distfiles = _distfiles.replace('$(HOME)', os.getenv('HOME'))
                     break
         if os.path.exists(_distfiles):
             pass
