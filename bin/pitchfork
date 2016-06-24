@@ -248,6 +248,7 @@ def pitchfork(args):
                 pass
             else:
                 try:
+                    print '%s/%s' % (_distfiles, _prjname)
                     os.mkdir('%s/%s' % (_distfiles, _prjname))
                 except:
                     raise Exception()

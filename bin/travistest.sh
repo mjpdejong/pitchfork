@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+mkdir ${HOME}/distfiles/test
 /bin/ls -lart ${HOME}/distfiles
 exit $?
 . ${HOME}/local/setup-env.sh
