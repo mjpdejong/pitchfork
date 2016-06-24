@@ -235,7 +235,15 @@ def pitchfork(args):
         if myargs['url'] is not None:
             _url = myargs['url']
             _archive = _url.split('/')[-1]
-            _prefetch = '/'.join([_distfiles, _archive])
+            _prjname = os.path.basename(os.getcwd())
+            if os.path.exists('%s/%s' % (_distfiles, _prjname)):
+                pass
+            else:
+                try:
+                    os.mkdir('%s/%s' % (_distfiles, _prjname))
+                except:
+                    raise Exception()
+            _prefetch = '/'.join([_distfiles, _prjname, _archive])
             if os.path.exists(_prefetch):
                 print "using local %s" % _archive
                 backticks('rm -f ./%s' % os.path.basename(_prefetch))
@@ -252,7 +260,7 @@ def pitchfork(args):
                 raise Exception()
             try:
                 backticks('md5sum -c MD5SUM')
-                backticks('cp %s %s/' % (_archive, _distfiles))
+                backticks('cp %s %s/%s' % (_archive, _distfiles, _prjname))
                 return
             except:
                 raise Exception()
