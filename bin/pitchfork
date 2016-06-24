@@ -215,6 +215,14 @@ def pitchfork(args):
         myargs = vars(args)
 
         _distfiles = ''
+        if os.path.exists('%s/settings.mk' % _projhome):
+            for line in open('%s/settings.mk' % _projhome, 'r'):
+                if line.lstrip().startswith('#'):
+                    continue
+                if 'DISFILES' in line.strip():
+                    if line.strip().split('=')[0].strip() == 'DISTFILES':
+                        _distfiles = line.strip().split('=')[1].strip()
+                    break
         if 'DISTFILES' in os.environ:
             _distfiles = "%s" % os.environ['DISTFILES']
         elif os.path.exists('%s/settings.mk' % _projhome):
