@@ -10,7 +10,7 @@ _FILE   = $(_NAME).tar.gz
 # Local works
 do-extract: $(_WRKSRC)
 $(_WRKSRC): | do-fetch
-	$(MD5SUM) -c MD5SUM || exit
+	$(MD5SUM) -c MD5SUM
 	tar zxf $(_FILE) -C $(WORKDIR)
 do-fetch: $(_FILE)
 $(_FILE):
