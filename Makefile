@@ -448,7 +448,7 @@ samtools-1.3.1:
 Rcpp:   ccache
 pbbamr: Rcpp zlib
 Rcpp:
-	$(MAKE) -C ports/thirdparty/$@ do-install
+	$(MAKE) -C ports/R/$@ do-install
 pbbamr:
 	$(MAKE) -C ports/pacbio/$@ do-install
 pbcommandr:
