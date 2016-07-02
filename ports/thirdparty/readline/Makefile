@@ -4,6 +4,7 @@ include ../../../mk/pitchfork.mk
 _NAME   = readline-6.3
 _URL    = ftp://ftp.gnu.org/gnu/readline
 _WRKSRC = $(WORKDIR)/$(_NAME)
+CFLAGS += -static-libgcc
 _CFLAGS = $(CFLAGS)
 _FILE   = $(_NAME).tar.gz
 

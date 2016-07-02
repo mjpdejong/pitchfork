@@ -5,6 +5,9 @@ _NAME   = swig-3.0.8
 _URL    = https://prdownloads.sourceforge.net/swig
 _WRKSRC = $(WORKDIR)/$(_NAME)
 _FILE   = $(_NAME).tar.gz
+CFLAGS += -static-libgcc -static-libstdc++
+export CFLAGS
+
 
 # Local works
 do-extract: $(_WRKSRC)

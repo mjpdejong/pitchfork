@@ -5,6 +5,7 @@ _NAME   = samtools-0.1.20
 _URL    = https://github.com/samtools/samtools/archive
 _WRKSRC = $(WORKDIR)/$(_NAME)
 _FILE   = 0.1.20.tar.gz
+CFLAGS += -static-libgcc
 
 CFLAGS += -I$(PREFIX)/include/ncurses
 export CFLAGS

@@ -4,8 +4,9 @@ include ../../../mk/pitchfork.mk
 _NAME   = libpng-1.6.21
 _URL    = https://prdownloads.sourceforge.net/libpng
 _WRKSRC = $(WORKDIR)/$(_NAME)
-_CFLAGS = $(CFLAGS)
 _FILE   = $(_NAME).tar.gz
+CFLAGS += -static-libgcc
+_CFLAGS = $(CFLAGS)
 
 # Local works
 do-extract: $(_WRKSRC)

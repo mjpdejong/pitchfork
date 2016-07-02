@@ -1,10 +1,12 @@
 include ../../../mk/pitchfork.mk
 
 # Local variables
-_NAME            = gmap-2015-12-31
-_URL             = http://research-pub.gene.com/gmap/src
-_FILE            = gmap-gsnap-2015-12-31.v7.tar.gz
-_WRKSRC          = $(WORKDIR)/$(_NAME)
+_NAME   = gmap-2015-12-31
+_URL    = http://research-pub.gene.com/gmap/src
+_FILE   = gmap-gsnap-2015-12-31.v7.tar.gz
+_WRKSRC = $(WORKDIR)/$(_NAME)
+CFLAGS += -static-libgcc
+export CFLAGS
 
 # Local works
 do-fetch: $(_FILE)

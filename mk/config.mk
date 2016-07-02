@@ -24,7 +24,7 @@ STAGING    ?= $(PFHOME)/staging
 CCACHE_DIR ?= $(WORKDIR)/.ccache
 DISTFILES  ?= $(PFHOME)/distfiles
 
-PIP         = $(PREFIX)/bin/pip --cache-dir $(PREFIX).pip
+PIP         = $(PREFIX)/bin/pip --cache-dir $(WORKDIR)/.git/pip
 
 
 ifneq ($(origin DEBUG),undefined)
@@ -37,11 +37,7 @@ endif
 ARCH      := $(shell $(UNAME) -m)
 OPSYS     := $(shell $(UNAME) -s)
 
-ifneq ($(OPSYS),Darwin)
-CFLAGS    ?= -fPIC -I$(PREFIX)/include -static-libstdc++
-else
 CFLAGS    ?= -fPIC -I$(PREFIX)/include
-endif
 CXXFLAGS  ?= $(CFLAGS)
 LDFLAGS   ?= -Wl,-rpath,'$$ORIGIN/../lib',-rpath,'$$$$ORIGIN/../lib' -L$(PREFIX)/lib
 

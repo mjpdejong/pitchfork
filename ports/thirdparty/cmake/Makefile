@@ -8,6 +8,8 @@ _NAME   = cmake-3.4.1
 _URL    = https://cmake.org/files/v3.4
 _FILE   = $(_NAME).tar.gz
 _WRKSRC = $(WORKDIR)/$(_NAME)
+LDFLAGS += -static-libgcc -static-libstdc++
+export LDFLAGS
 
 # Local works
 do-fetch: $(_FILE)

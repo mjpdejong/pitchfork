@@ -6,6 +6,8 @@ _URL    = http://ftp.openbsd.org/pub/OpenBSD/LibreSSL
 _WRKSRC = $(WORKDIR)/$(_NAME)
 _CFLAGS = $(CFLAGS)
 _FILE   = $(_NAME).tar.gz
+LDFLAGS += -static-libgcc
+export LDFLAGS
 
 # Local works
 do-extract: $(_WRKSRC)
