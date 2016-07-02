@@ -58,5 +58,5 @@ provided:
 	ln -fs $(_BOOST)/include/boost $(PREFIX)/include/
 	ln -fs $(_BOOST)/lib/libboost* $(PREFIX)/lib/
 	echo include/boost > $(PREFIX)/var/pkg/$(_NAME)
-	cd $(PREFIX) && find lib -nmae 'libbost*' >> $(PREFIX)/var/pkg/$(_NAME)
+	cd $(PREFIX) && find lib -name 'libbost*' >> $(PREFIX)/var/pkg/$(_NAME)
 endif
