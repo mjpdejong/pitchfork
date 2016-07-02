@@ -4,10 +4,10 @@ include ../../../mk/pitchfork.mk
 include ../../../mk/chkfc.mk
 
 # Local variables
-_NAME   = OpenBLAS-0.2.15
+_NAME   = OpenBLAS-0.2.18
 _URL    = https://github.com/xianyi/OpenBLAS/archive
 _WRKSRC = $(WORKDIR)/$(_NAME)
-_FILE   = v0.2.15.tar.gz
+_FILE   = v0.2.18.tar.gz
 
 # Local works
 do-extract: $(_WRKSRC)
@@ -19,7 +19,7 @@ $(_FILE):
 	$(PFHOME)/bin/pitchfork fetch --url $(_URL)/$@
 do-build: $(_WRKSRC)/libopenblas.$(DYLIB)
 $(_WRKSRC)/libopenblas.$(DYLIB): | do-extract
-	$(MAKE) -C $(_WRKSRC) NO_PARALLEL_MAKE=1 >& build.log || $(PFHOME)/bin/diewith build.log
+	$(MAKE) -C $(_WRKSRC) MAKE_NB_JOBS=2 >& build.log || $(PFHOME)/bin/diewith build.log
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
 	rm -rf $(STAGING)/$(_NAME)
