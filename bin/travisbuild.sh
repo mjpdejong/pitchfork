@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 export PATH=/usr/lib/jvm/java-8-oracle/jre/bin:$PATH
-rm -rf $HOME/local.pip/wheel
+find $HOME/local.pip/wheels -type f ! -name '*none-any.whl' -print -delete
 mkdir -p $HOME/distfiles
 # rm -rf $HOME/distfiles/swig
 test -e $HOME/distfiles/hdf5-1.8.13-linux-x86_64-shared.tar.gz \
@@ -9,7 +9,7 @@ test -e $HOME/distfiles/hdf5-1.8.13-linux-x86_64-shared.tar.gz \
 tar zxf $HOME/distfiles/hdf5-1.8.13-linux-x86_64-shared.tar.gz -C $HOME
 cp mk/travis.mk settings.mk
 make init
-make reseq-core
-make pbfalcon
-make smrtflow
-rm -rf $HOME/local.pip/wheel
+make -l 2 reseq-core
+make -l 2 pbfalcon
+make -l 2 smrtflow
+find $HOME/local.pip/wheels -type f ! -name '*none-any.whl' -print -delete
