@@ -5,6 +5,10 @@ _NAME   = ncurses-6.0
 _URL    = ftp://ftp.gnu.org/gnu/ncurses
 _FILE   = $(_NAME).tar.gz
 _WRKSRC = $(WORKDIR)/$(_NAME)
+ifneq ($(OPSYS),Darwin)
+LDFLAGS += -static-libgcc
+export LDFLAGS
+endif
 
 # Local works
 do-fetch: $(_FILE)

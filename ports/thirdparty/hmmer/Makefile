@@ -5,6 +5,10 @@ _NAME   = hmmer-3.1b2
 _URL    = http://eddylab.org/software/hmmer3/3.1b2
 _WRKSRC = $(WORKDIR)/$(_NAME)
 _FILE   = $(_NAME).tar.gz
+ifneq ($(OPSYS),Darwin)
+LDFLAGS += -static-libgcc
+export LDFLAGS
+endif
 
 # Local works
 do-extract: $(_WRKSRC)

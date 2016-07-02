@@ -8,6 +8,8 @@ _NAME    = boost-1.60.0
 _URL     = https://prdownloads.sourceforge.net/boost
 _FILE    = boost_1_60_0.tar.gz
 _WRKSRC  = $(WORKDIR)/$(_NAME)
+CFLAGS  += -static-libstc++
+export CFLAGS
 
 # Local works
 do-fetch: $(_FILE)
@@ -29,7 +31,7 @@ $(_WRKSRC)/project-config.jam: | do-extract
 
 do-build: $(STAGING)/$(_NAME)/lib/libboost_system.a
 $(STAGING)/$(_NAME)/lib/libboost_system.a: | do-config
-	(cd $(_WRKSRC) && ./bjam \
+	(cd $(_WRKSRC) && ./bjam -s NO_BZIP2=1 \
                                  --stagedir=$(STAGING)/$(_NAME) \
                                  stage) >& build.log || $(PFHOME)/bin/diewith build.log
 do-clean:
@@ -54,6 +56,7 @@ ifneq ($(origin HAVE_BOOST),undefined)
 _BOOST = $(shell ../../../bin/checkBOOST $(HAVE_BOOST))
 provided:
 	ln -fs $(_BOOST)/include/boost $(PREFIX)/include/
-	ln -fs $(_BOOST)/lib/boost $(PREFIX)/lib/
+	ln -fs $(_BOOST)/lib/libboost* $(PREFIX)/lib/
 	echo include/boost > $(PREFIX)/var/pkg/$(_NAME)
+	cd $(PREFIX) && find lib -name 'libbost*' >> $(PREFIX)/var/pkg/$(_NAME)
 endif

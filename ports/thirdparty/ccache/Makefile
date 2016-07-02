@@ -5,6 +5,10 @@ _NAME   = ccache-3.2.4
 _URL    = https://www.samba.org/ftp/ccache
 _FILE	= $(_NAME).tar.gz
 _WRKSRC = $(WORKDIR)/$(_NAME)
+ifneq ($(OPSYS),Darwin)
+LDFLAGS += -static-libgcc
+export LDFLAGS
+endif
 
 # Local works
 do-extract: $(_WRKSRC)
