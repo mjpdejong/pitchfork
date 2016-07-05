@@ -24,7 +24,7 @@ STAGING    ?= $(PFHOME)/staging
 CCACHE_DIR ?= $(WORKDIR)/.ccache
 DISTFILES  ?= $(PFHOME)/distfiles
 
-PIP         = $(PREFIX)/bin/pip --cache-dir $(WORKDIR)/.git/pip
+PIP         = $(PREFIX)/bin/pip --cache-dir $(WORKDIR)/.pip
 
 
 ifneq ($(origin DEBUG),undefined)
