@@ -46,7 +46,7 @@ _startover::
            set -x; \
            rm -rf $(PREFIX)/* $(PREFIX)/.Python staging/* "$(WORKDIR)"/* ports/*/*/*.log; \
            test -d "$(WORKDIR)/.git/pip/wheels" && \
-	   find "$(WORKDIR)/.git/pip/wheels" -type f ! -name '*none-any.whl' -print -delete; \
+	   find "$(WORKDIR)/.git/pip/wheels" -type f ! -name '*none-any.whl' -print -delete || true; \
         fi
 
 .PHONY: init sanity
