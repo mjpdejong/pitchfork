@@ -45,8 +45,8 @@ _startover::
         if [[ $$REPLY =~ ^[Yy]$$ ]]; then \
            set -x; \
            rm -rf $(PREFIX)/* $(PREFIX)/.Python staging/* "$(WORKDIR)"/* ports/*/*/*.log; \
-           test -d "$(WORKDIR)/.git/pip/wheels" && \
-	   find "$(WORKDIR)/.git/pip/wheels" -type f ! -name '*none-any.whl' -print -delete || true; \
+           test -d "$(PIP_CACHE)/wheels" && \
+	   find "$(PIP_CACHE)/wheels" -type f ! -name '*none-any.whl' -print -delete || true; \
         fi
 
 .PHONY: init sanity
