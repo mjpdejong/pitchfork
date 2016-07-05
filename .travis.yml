@@ -34,6 +34,7 @@ before_cache:
 #     - find $HOME/.ivy2 -name "ivydata-*.properties" -delete -print
 
 install:
+    - rm -rf $HOME/distfiles/swig
     - mkdir -p $HOME/distfiles
     - bin/travisbuild.sh
 
