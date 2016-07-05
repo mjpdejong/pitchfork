@@ -25,16 +25,19 @@ cache:
   directories:
     - $HOME/.ccache
     - $HOME/.ivy2/cache
+    - $HOME/.pip
     - $HOME/distfiles
-    - $HOME/workspace/.pip
 
-# before_cache:
+before_cache:
+    - find $HOME/.pip/wheels -type f ! -name '*none-any.whl' -print -delete
+    - rm -rf $HOME/distfiles/swig
 #     - find $HOME/.ivy2 -name "ivydata-*.properties" -delete -print
 
 install:
-    - /bin/ls -lrt $HOME/distfiles
+    - rm -rf $HOME/distfiles/swig
+    - mkdir -p $HOME/distfiles
     - bin/travisbuild.sh
 
 script:
-    - /bin/ls $HOME/local/bin
+    - ls $HOME/local/bin
     - bin/travistest.sh
