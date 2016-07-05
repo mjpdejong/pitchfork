@@ -21,10 +21,11 @@ PFHOME    := $(realpath ../../..)
 WORKDIR    ?= $(PFHOME)/workspace
 PREFIX     ?= $(PFHOME)/deployment
 STAGING    ?= $(PFHOME)/staging
-CCACHE_DIR ?= $(WORKDIR)/.ccache
+CCACHE_DIR ?= $(PFHOME)/.git/ccache
+PIP_CACHE  ?= $(PFHOME)/.git/pip
 DISTFILES  ?= $(PFHOME)/distfiles
 
-PIP         = $(PREFIX)/bin/pip --cache-dir $(WORKDIR)/.pip
+PIP         = $(PREFIX)/bin/pip --cache-dir $(PIP_CACHE)
 
 
 ifneq ($(origin DEBUG),undefined)
