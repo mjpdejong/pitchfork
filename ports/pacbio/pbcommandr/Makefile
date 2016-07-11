@@ -37,6 +37,8 @@ $(PREFIX)/var/pkg/$(_NAME): | do-fetch do-config
 	R_LIBS="$(R_LIBS)" $(R) -f $(_WRKSRC)/install-pbbamr.R
 	R_LIBS=$(R_LIBS) \
             $(R) CMD INSTALL $(_WRKSRC)
+	install -c -m 755 $(_WRKSRC)/bin/exampleHelloWorld.R      $(PREFIX)/bin/exampleHelloWorld.R
+	install -c -m 755 $(_WRKSRC)/bin/exampleReseqConditions.R $(PREFIX)/bin/exampleReseqConditions.R 
 	cd $(PREFIX) && \
         find \
              lib/R/library/chron \
