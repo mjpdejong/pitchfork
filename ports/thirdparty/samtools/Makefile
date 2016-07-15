@@ -19,7 +19,7 @@ $(_FILE):
 	$(PFHOME)/bin/pitchfork fetch --url $(_URL)/$@
 do-build: $(_WRKSRC)/samtools
 $(_WRKSRC)/samtools: | do-config
-	$(MAKE) CC=$(CC) CFLAGS='-g -Wall -O2' INCLUDES="-I. -I$(PREFIX)/include -I$(PREFIX)/include/ncurses" LIBPATH="-L$(PREFIX)/lib" -C $(_WRKSRC) samtools >& build.log || $(PFHOME)/bin/diewith build.log
+	$(MAKE) CC=$(CC) CFLAGS='-g -Wall -O2' INCLUDES="-I. -I$(PREFIX)/include -I$(PREFIX)/include/ncurses" LIBPATH="-L$(PREFIX)/lib $(LDFLAGS)" LDFLAGS="" -C $(_WRKSRC) samtools >& build.log || $(PFHOME)/bin/diewith build.log
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
 	rm -rf $(STAGING)/$(_NAME)
