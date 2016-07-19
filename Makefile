@@ -138,6 +138,7 @@ pblaa:             htslib pbbam seqan pbsparse pbccs ConsensusCore2 pbchimera
 pbchimera:         seqan cmake
 ppa:               boost cmake pbbam htslib
 trim_isoseq_polyA: boost cmake
+pysiv2:            fabric requests nose xmlbuilder pbsmrtpipe pbcoretools
 
 # end of dependencies
 
@@ -404,6 +405,9 @@ Cogent:
 smrtflow:
 	$(MAKE) -C ports/pacbio/$@ do-install
 trim_isoseq_polyA:
+	$(MAKE) -C ports/pacbio/$@ do-install
+#
+pysiv2:
 	$(MAKE) -C ports/pacbio/$@ do-install
 
 # Not part of pacbio developers' software collection

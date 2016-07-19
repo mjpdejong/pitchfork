@@ -19,10 +19,8 @@ DEVOPT = -e
 endif
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-fetch
-	cat $(_WRKSRC)/README.md
-	echo LOL not ready yet
-#	$(PIP) install --no-deps $(DEVOPT) $(_WRKSRC)/
-#	@echo pip uninstall $(_NAME) > $@
+	$(PIP) install --no-deps $(DEVOPT) $(_WRKSRC)/
+	@echo pip uninstall $(_NAME) > $@
 do-clean:
 do-distclean:
 	cd $(_WRKSRC) && $(GIT) clean -xdf
