@@ -6,6 +6,7 @@ _URL    = http://research-pub.gene.com/gmap/src
 _FILE   = gmap-gsnap-2015-12-31.v7.tar.gz
 _WRKSRC = $(WORKDIR)/$(_NAME)
 ifneq ($(OPSYS),Darwin)
+LDFLAGS += -Wl,-rpath,'$$\$$\$$$$ORIGIN/../lib'
 LDFLAGS += -static-libgcc
 export LDFLAGS
 endif

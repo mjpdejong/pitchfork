@@ -6,6 +6,7 @@ _URL    = https://www.samba.org/ftp/ccache
 _FILE	= $(_NAME).tar.gz
 _WRKSRC = $(WORKDIR)/$(_NAME)
 ifneq ($(OPSYS),Darwin)
+LDFLAGS += -Wl,-rpath,'$$\$$\$$$$ORIGIN/../lib'
 LDFLAGS += -static-libgcc
 export LDFLAGS
 endif
