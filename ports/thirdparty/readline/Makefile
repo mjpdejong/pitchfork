@@ -5,9 +5,10 @@ _NAME   = readline-6.3
 _URL    = ftp://ftp.gnu.org/gnu/readline
 _WRKSRC = $(WORKDIR)/$(_NAME)
 ifneq ($(OPSYS),Darwin)
-CFLAGS += -static-libgcc
+LDFLAGS += -Wl,-rpath,'\$$\$$ORIGIN/../lib'
+LDFLAGS += -static-libgcc
+export LDFLAGS
 endif
-_CFLAGS = $(CFLAGS)
 _FILE   = $(_NAME).tar.gz
 
 # Local works
@@ -20,7 +21,7 @@ $(_FILE):
 	$(PFHOME)/bin/pitchfork fetch --url $(_URL)/$@
 do-config: $(_WRKSRC)/config.log
 $(_WRKSRC)/config.log: | do-extract
-	(cd $(_WRKSRC) && CFLAGS="$(_CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure --prefix=$(PREFIX)) >& \
+	(cd $(_WRKSRC) && CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" ./configure --prefix=$(PREFIX)) >& \
         config.log || $(PFHOME)/bin/diewith condig.log
 do-build: $(_WRKSRC)/libreadline.$(DYLIB)
 $(_WRKSRC)/libreadline.$(DYLIB): | do-config

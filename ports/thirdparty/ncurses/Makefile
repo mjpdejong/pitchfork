@@ -6,6 +6,7 @@ _URL    = ftp://ftp.gnu.org/gnu/ncurses
 _FILE   = $(_NAME).tar.gz
 _WRKSRC = $(WORKDIR)/$(_NAME)
 ifneq ($(OPSYS),Darwin)
+LDFLAGS += -Wl,-rpath,'\$$\$$ORIGIN/../lib'
 LDFLAGS += -static-libgcc
 export LDFLAGS
 endif
