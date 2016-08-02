@@ -17,8 +17,6 @@ default:
 	@echo "You can do that manually, or let it happen automatically as 'initialized.mk' is generated."
 	@echo "CCACHE_DIR=${CCACHE_DIR}"
 	@echo "PREFIX=${PREFIX}"
-test:
-	$(MAKE) -C ports/thirdparty/python do-build
 
 # Please add dependencies after this line
 ccache:           initialized.o
@@ -110,7 +108,6 @@ htslib:       ccache zlib
 blasr_libcpp: ccache boost hdf5 pbbam
 blasr:        ccache blasr_libcpp hdf5 cmake
 pbbam:        ccache samtools cmake boost htslib gtest
-pbccs:        ccache pbbam htslib cmake boost gtest seqan ConsensusCore2
 dazzdb:       ccache
 daligner:     ccache dazzdb
 damasker:     ccache
@@ -132,12 +129,12 @@ kineticsTools:    scipy pbcore pbcommand h5py
 pypeFLOW:         rdflib rdfextras
 pbalign:          pbcore samtools blasr pbcommand
 ConsensusCore:    numpy boost swig cmake
-ConsensusCore2:   numpy boost swig cmake
-GenomicConsensus: pbcore pbcommand numpy h5py ConsensusCore ConsensusCore2
+GenomicConsensus: pbcore pbcommand numpy h5py ConsensusCore unanimity
 smrtflow:         sbt
 pbtranscript:     scipy networkx pysam pbcore pbcommand pbcoretools pbdagcon
+unanimity:        h5py boost swig cmake htslib pbbam seqan
 #
-pblaa:             htslib pbbam seqan pbsparse pbccs ConsensusCore2 pbchimera
+pblaa:             htslib pbbam seqan pbsparse unanimity pbchimera
 pbchimera:         seqan cmake
 ppa:               boost cmake pbbam htslib
 trim_isoseq_polyA: boost cmake
@@ -149,13 +146,13 @@ pysiv2:            fabric requests nose xmlbuilder pbsmrtpipe pbcoretools
 bam2bax: blasr
 bax2bam: blasr
 reseq-core: \
-       pbsmrtpipe pbalign blasr pbreports GenomicConsensus pbbam pbcoretools pbccs
+       pbsmrtpipe pbalign blasr pbreports GenomicConsensus pbbam pbcoretools unanimity
 isoseq-core: \
        reseq-core pbtranscript trim_isoseq_polyA hmmer gmap biopython cram nose
 world: \
-       reseq-core  ConsensusCore2 pbfalcon kineticsTools \
-       isoseq-core ssw_lib        mash                   \
-       ipython     cram           nose
+       reseq-core  unanimity pbfalcon kineticsTools \
+       isoseq-core ssw_lib   mash                   \
+       ipython     cram      nose
 
 # rules
 ifeq ($(origin HAVE_CCACHE),undefined)
@@ -347,8 +344,6 @@ seqan:
 	$(MAKE) -C ports/pacbio/$@ do-install
 pbbam:
 	$(MAKE) -C ports/pacbio/$@ do-install
-pbccs:
-	$(MAKE) -C ports/pacbio/$@ do-install
 dazzdb:
 	$(MAKE) -C ports/pacbio/$@ do-install
 daligner:
@@ -376,8 +371,6 @@ pypeFLOW:
 	$(MAKE) -C ports/pacbio/$@ do-install
 ConsensusCore:
 	$(MAKE) -C ports/pacbio/$@ do-install
-ConsensusCore2:
-	$(MAKE) -C ports/pacbio/$@ do-install
 GenomicConsensus:
 	$(MAKE) -C ports/pacbio/$@ do-install
 pbreports:
@@ -389,6 +382,8 @@ pbalign:
 pbcoretools:
 	$(MAKE) -C ports/pacbio/$@ do-install
 pbtranscript:
+	$(MAKE) -C ports/pacbio/$@ do-install
+unanimity:
 	$(MAKE) -C ports/pacbio/$@ do-install
 #
 pbchimera:
@@ -448,8 +443,8 @@ distclean-%:
 	test -e ports/pacbio/$*     && $(MAKE) -C ports/pacbio/$*     do-distclean || true
 	test -e ports/thirdparty/$* && $(MAKE) -C ports/thirdparty/$* do-distclean || true
 	test -e ports/python/$*     && $(MAKE) -C ports/python/$*     do-distclean || true
-clean: clean-blasr_libcpp clean-blasr clean-htslib clean-seqan clean-pbbam clean-pbccs clean-dazzdb clean-daligner clean-damasker clean-pbdagcon clean-bam2fastx clean-pbcore clean-pbcommand clean-pbsmrtpipe clean-falcon_kit clean-pbfalcon clean-pypeFLOW clean-ConsensusCore clean-ConsensusCore2 clean-GenomicConsensus clean-pbreports clean-kineticsTools clean-pbalign clean-pbcoretools clean-pbchimera clean-pbsparse clean-pblaa clean-pbh5tools clean-pbbarcode clean-ppa clean-Cogent
-distclean: distclean-blasr_libcpp distclean-blasr distclean-htslib distclean-seqan distclean-pbbam distclean-pbccs distclean-dazzdb distclean-daligner distclean-damasker distclean-pbdagcon distclean-bam2fastx distclean-pbcore distclean-pbcommand distclean-pbsmrtpipe distclean-falcon_kit distclean-pbfalcon distclean-pypeFLOW distclean-ConsensusCore distclean-ConsensusCore2 distclean-GenomicConsensus distclean-pbreports distclean-kineticsTools distclean-pbalign distclean-pbcoretools distclean-pbchimera distclean-pbsparse distclean-pblaa distclean-pbh5tools distclean-pbbarcode distclean-ppa distclean-Cogent
+clean: clean-blasr_libcpp clean-blasr clean-htslib clean-seqan clean-pbbam clean-unanimity clean-dazzdb clean-daligner clean-damasker clean-pbdagcon clean-bam2fastx clean-pbcore clean-pbcommand clean-pbsmrtpipe clean-falcon_kit clean-pbfalcon clean-pypeFLOW clean-ConsensusCore clean-GenomicConsensus clean-pbreports clean-kineticsTools clean-pbalign clean-pbcoretools clean-pbchimera clean-pbsparse clean-pblaa clean-pbh5tools clean-pbbarcode clean-ppa clean-Cogent
+distclean: distclean-blasr_libcpp distclean-blasr distclean-htslib distclean-seqan distclean-pbbam distclean-unanimity distclean-dazzdb distclean-daligner distclean-damasker distclean-pbdagcon distclean-bam2fastx distclean-pbcore distclean-pbcommand distclean-pbsmrtpipe distclean-falcon_kit distclean-pbfalcon distclean-pypeFLOW distclean-ConsensusCore distclean-GenomicConsensus distclean-pbreports distclean-kineticsTools distclean-pbalign distclean-pbcoretools distclean-pbchimera distclean-pbsparse distclean-pblaa distclean-pbh5tools distclean-pbbarcode distclean-ppa distclean-Cogent
 
 # extra testing section conflicts with other installation
 samtools-1.3.1:         ccache zlib ncurses
@@ -465,4 +460,4 @@ pbbamr:
 pbcommandr:
 	$(MAKE) -C ports/pacbio/$@ do-install
 
-.PHONY: ConsensusCore GenomicConsensus MarkupSafe appnope avro biopython blasr boost ccache cmake Cogent cram cycler cython dazzdb daligner damasker decorator default docopt ecdsa fabric gmap gmock gnureadline gtest hmmer htslib ipython isodate jsonschema kineticsTools libpng matplotlib modules ncurses networkx nim nose numpy openblas openssl paramiko pbalign pbbam pbccs pbchimera pbcommand pbcore pbcoretools pbdagcon pbfalcon pblaa pbreports pbsmrtpipe pbsparse pexpect pickleshare pip ppa ptyprocess pycrypto pydot pyparsing pypeFLOW pysam python pytz pyxb rdfextras rdflib readline requests samtools scipy seqan simplegeneric six swig tcl traitlets world xmlbuilder zlib pbh5tools tabulate pbbarcode
+.PHONY: ConsensusCore GenomicConsensus MarkupSafe appnope avro biopython blasr boost ccache cmake Cogent cram cycler cython dazzdb daligner damasker decorator default docopt ecdsa fabric gmap gmock gnureadline gtest hmmer htslib ipython isodate jsonschema kineticsTools libpng matplotlib modules ncurses networkx nim nose numpy openblas openssl paramiko pbalign pbbam unanimity pbchimera pbcommand pbcore pbcoretools pbdagcon pbfalcon pblaa pbreports pbsmrtpipe pbsparse pexpect pickleshare pip ppa ptyprocess pycrypto pydot pyparsing pypeFLOW pysam python pytz pyxb rdfextras rdflib readline requests samtools scipy seqan simplegeneric six swig tcl traitlets world xmlbuilder zlib pbh5tools tabulate pbbarcode
