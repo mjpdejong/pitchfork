@@ -39,16 +39,14 @@ do-build:
 	cd $(_WRKSRC)/_build && $(MAKE)
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
+	rsync -ax $(_WRKSRC)/_build/ccs $(PREFIX)/bin/
+	@echo bin/ccs > $@ 
 	    CMAKE_COMMAND=$(CMAKE) \
         Boost_INCLUDE_DIRS=$(BOOST_ROOT)/include \
               SWIG_COMMAND=$(shell . $(PREFIX)/setup-env.sh && which swig) \
                    VERBOSE=1 \
         $(PIP) install --verbose --upgrade --no-deps $(DEVOPT) $(_WRKSRC)/
-	rsync -ax --exclude Version.h.in $(_WRKSRC)/include/ $(PREFIX)/include/
-	rsync -ax ccs $(PREFIX)/bin/
-	@echo pip uninstall $(_NAME) > $@
-	cd $(_WRKSRC) && find include | grep -v -e '^$$' -e Version.h.in | sort -r >> $@
-	@echo bin/ccs >> $@ 
+	@echo pip uninstall $(_NAME) >> $@
 do-clean:
 	$(MAKE) -C $(_WRKSRC)/_build clean
 do-distclean:

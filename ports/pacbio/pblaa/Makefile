@@ -28,22 +28,14 @@ $(_WRKSRC)/_build/Makefile: | do-fetch
             -DZLIB_LIBRARIES=$(ZLIB_ROOT)/lib/libz.$(DYLIB) \
             -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/src/htslib/include \
             -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/lib/libhts.a \
-            -DPacBioBAM_IncludeDir=$(PREFIX)/include \
-            -DPBBAM_INCLUDE_DIRS=$(PREFIX)/include \
-            -DPBBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
+            -DPacBioBAM_INCLUDE_DIRS=$(PREFIX)/include \
+            -DPacBioBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
             -DSEQAN_INCLUDE_DIRS=$(PREFIX)/include \
             -DSEQAN_RootDir=$(PREFIX) \
-            -DPacBioConsensus_IncludeDir=$(PREFIX)/include \
-            -DPBCONSENSUS_INCLUDE_DIRS=$(PREFIX)/include \
-            -DPBCONSENSUS_LIBRARIES=$(PREFIX)/lib/libpbconsensus.$(DYLIB) \
-            -DPacBioCCS_IncludeDir=$(PREFIX)/include \
-            -DPBCCS_INCLUDE_DIRS=$(PREFIX)/include \
-            -DPBCCS_LIBRARIES=$(PREFIX)/lib/libpbccs.$(DYLIB) \
-            -DPacBioSparse_IncludeDir=$(PREFIX)/include \
-            -DPacBioChimera_IncludeDir=$(PREFIX)/include \
             -DBoost_INCLUDE_DIRS=$(BOOST_ROOT)/include \
-            -DPacBioConsensus_ThirdPartyDir=$(PREFIX)/src \
-            -DPacBioCCS_ThirdPartyDir=$(PREFIX)/src \
+            -DPacBioLAA_UNY=$(_WRKSRC)/../unanimity \
+            -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+            -DCMAKE_SKIP_BUILD_RPATH=TRUE \
             ..
 do-build: $(_WRKSRC)/bin/laa
 $(_WRKSRC)/bin/laa: | do-config
