@@ -246,11 +246,14 @@ def pitchfork(args):
                 except:
                     raise Exception()
             _prefetch = '/'.join([_distfiles, _prjname, _archive])
+            if _archive == '':
+                log("[ERROR] _archive is empty")
+                raise Exception()
             if os.path.exists(_prefetch):
                 print "using local %s" % _archive
                 _out, _exit, _err = backticks('rm -f ./%s' % os.path.basename(_prefetch))
                 _out, _exit, _err = backticks('ln -sfn %s ./' % _prefetch)
-                _out, _exit, _err = backticks('md5sum -c MD5SUM')
+                _out, _exit, _err = backticks('grep %s MD5SUM | md5sum -c -' % os.path.basename(_prefetch))
                 if _exit == 0:
                     return
                 try:

@@ -30,7 +30,6 @@ cache:
 
 before_cache:
     - find $HOME/.pip/wheels -type f ! -name '*none-any.whl' -print -delete
-    - rm -rf $HOME/distfiles/swig
 #     - find $HOME/.ivy2 -name "ivydata-*.properties" -delete -print
 
 install:
