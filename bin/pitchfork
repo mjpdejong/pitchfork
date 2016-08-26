@@ -11,12 +11,19 @@ _ownpath  = os.path.abspath(__file__)
 _whereami = os.path.dirname(_ownpath)
 _projhome = os.path.dirname(_whereami)
 
+VERBOSE = os.environ.get('VERBOSE')
+try:
+    VERBOSE = int(VERBOSE)
+except Exception:
+    pass
 
 def backticks(cmd, merge_stderr=True):
     """
     Simulates the perl backticks (``) command with error-handling support
     Returns ( command output as sequence of strings, error code, error message )
     """
+    if VERBOSE:
+        print "`{}`".format(cmd)
     if merge_stderr:
         _stderr = subprocess.STDOUT
     else:
