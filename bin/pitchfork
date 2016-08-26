@@ -266,7 +266,7 @@ def pitchfork(args):
             _out, _exit, _err = backticks('curl -L -O %s' % _url)
             if _exit != 0:
                 raise Exception()
-            _out, _exit, _err = backticks('md5sum -c MD5SUM')
+            _out, _exit, _err = backticks('grep %s MD5SUM | md5sum -c -' % os.path.basename(_prefetch))
             _out, _exit, _err = backticks('cp %s %s/%s' % (_archive, _distfiles, _prjname))
             if _exit == 0:
                 return
