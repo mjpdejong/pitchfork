@@ -17,7 +17,7 @@ try:
 except Exception:
     pass
 
-def backticks(cmd, merge_stderr=True):
+def backticks(cmd, merge_stderr=True, checked=False):
     """
     Simulates the perl backticks (``) command with error-handling support
     Returns ( command output as sequence of strings, error code, error message )
@@ -42,7 +42,7 @@ def backticks(cmd, merge_stderr=True):
     # need to allow process to terminate
     p.wait()
 
-    errCode = p.returncode and p.returncode or 0
+    errCode = int(p.returncode)
     if p.returncode > 0:
         errorMessage = os.linesep.join(out)
         output = []
@@ -50,6 +50,9 @@ def backticks(cmd, merge_stderr=True):
         errorMessage = ''
         output = out
 
+    if checked and errCode:
+        raise Exception('{} <- `{}`\n\t{}'.format(
+            errCode, cmd, errorMessage))
     return output, errCode, errorMessage
 
 
@@ -191,7 +194,7 @@ def pitchfork(args):
                 content = f.readlines()
             if ' uninstall ' in content[0]:
                 print '%s/bin/pip uninstall -y %s' % (_prefix, content[0].strip().split(' ')[-1])
-                _out, _exit, _err = backticks('%s/bin/pip uninstall -y %s' % (_prefix, content[0].strip().split(' ')[-1]))
+                backticks('%s/bin/pip uninstall -y %s' % (_prefix, content[0].strip().split(' ')[-1]))
             for myfile in content:
                 myfile = '%s/%s' % (_prefix, myfile.strip())
                 if os.path.isfile(myfile) or os.path.islink(myfile):
@@ -258,31 +261,23 @@ def pitchfork(args):
                 raise Exception()
             if os.path.exists(_prefetch):
                 print "using local %s" % _archive
-                _out, _exit, _err = backticks('rm -f ./%s' % os.path.basename(_prefetch))
-                _out, _exit, _err = backticks('ln -sfn %s ./' % _prefetch)
-                _out, _exit, _err = backticks('grep %s MD5SUM | md5sum -c -' % os.path.basename(_prefetch))
-                if _exit == 0:
-                    return
                 try:
-                    os.remove(_prefetch)
+                    _out, _exit, _err = backticks('rm -f ./%s' % os.path.basename(_prefetch))
+                    _out, _exit, _err = backticks('ln -sfn %s ./' % _prefetch)
+                    _out, _exit, _err = backticks('grep %s MD5SUM | md5sum -c -' % os.path.basename(_prefetch), checked=True)
+                    return
                 except:
-                    pass
-                log('[ERROR] checksum failed.')
-                raise Exception()
+                    if os.path.exists(_prefetch):
+                        os.remove(_prefetch)
+                    raise
             print "fetching %s" % _url
-            _out, _exit, _err = backticks('curl -L -O %s' % _url)
-            if _exit != 0:
-                raise Exception()
+            _out, _exit, _err = backticks('curl -L -O %s' % _url, checked=True)
             _out, _exit, _err = backticks('grep %s MD5SUM | md5sum -c -' % os.path.basename(_prefetch))
             _out, _exit, _err = backticks('cp %s %s/%s' % (_archive, _distfiles, _prjname))
-            if _exit == 0:
-                return
-            log('[ERROR] checksum failed.')
-            raise Exception()
+            return
 
-        log('[ERROR] you need to specify --url')
-        raise Exception()
-    raise Exception()
+        raise Exception('[ERROR] you need to specify --url')
+    raise Exception('Unknown subcommand: {!r}'.format(args.subcommand))
 
 
 def main(argv=sys.argv):
