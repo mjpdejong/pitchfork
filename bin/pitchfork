@@ -17,7 +17,7 @@ try:
 except Exception:
     pass
 
-def backticks(cmd, merge_stderr=True):
+def backticks(cmd, merge_stderr=True, checked=False):
     """
     Simulates the perl backticks (``) command with error-handling support
     Returns ( command output as sequence of strings, error code, error message )
@@ -42,7 +42,7 @@ def backticks(cmd, merge_stderr=True):
     # need to allow process to terminate
     p.wait()
 
-    errCode = p.returncode and p.returncode or 0
+    errCode = int(p.returncode)
     if p.returncode > 0:
         errorMessage = os.linesep.join(out)
         output = []
@@ -50,6 +50,9 @@ def backticks(cmd, merge_stderr=True):
         errorMessage = ''
         output = out
 
+    if checked and errCode:
+        raise Exception('{} <- `{}`\n\t{}'.format(
+            errCode, cmd, errorMessage))
     return output, errCode, errorMessage
 
 
