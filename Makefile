@@ -438,6 +438,10 @@ distclean-%:
 	test -e ports/pacbio/$*     && $(MAKE) -C ports/pacbio/$*     do-distclean || true
 	test -e ports/thirdparty/$* && $(MAKE) -C ports/thirdparty/$* do-distclean || true
 	test -e ports/python/$*     && $(MAKE) -C ports/python/$*     do-distclean || true
+reinstall-%:
+	$(MAKE) -C ports/pacbio/$* do-uninstall
+	$(MAKE) -C ports/pacbio/$* do-distclean
+	$(MAKE) -C ports/pacbio/$* do-install
 clean: clean-blasr_libcpp clean-blasr clean-htslib clean-seqan clean-pbbam clean-unanimity clean-dazzdb clean-daligner clean-damasker clean-pbdagcon clean-bam2fastx clean-pbcore clean-pbcommand clean-pbsmrtpipe clean-falcon_kit clean-pbfalcon clean-pypeFLOW clean-ConsensusCore clean-GenomicConsensus clean-pbreports clean-kineticsTools clean-pbalign clean-pbcoretools clean-pblaa clean-pbh5tools clean-pbbarcode clean-ppa clean-Cogent
 distclean: distclean-blasr_libcpp distclean-blasr distclean-htslib distclean-seqan distclean-pbbam distclean-unanimity distclean-dazzdb distclean-daligner distclean-damasker distclean-pbdagcon distclean-bam2fastx distclean-pbcore distclean-pbcommand distclean-pbsmrtpipe distclean-falcon_kit distclean-pbfalcon distclean-pypeFLOW distclean-ConsensusCore distclean-GenomicConsensus distclean-pbreports distclean-kineticsTools distclean-pbalign distclean-pbcoretools distclean-pblaa distclean-pbh5tools distclean-pbbarcode distclean-ppa distclean-Cogent
 
