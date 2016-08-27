@@ -150,8 +150,8 @@ reseq-core: \
 isoseq-core: \
        reseq-core pbtranscript trim_isoseq_polyA hmmer gmap biopython cram nose
 world: \
-       reseq-core  unanimity pbfalcon kineticsTools \
-       isoseq-core ssw_lib   mash                   \
+       reseq-core  pbfalcon  kineticsTools \
+       isoseq-core ssw_lib   mash          \
        ipython     cram      nose
 
 # rules
