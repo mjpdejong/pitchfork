@@ -132,6 +132,7 @@ ConsensusCore:    numpy boost swig cmake
 GenomicConsensus: pbcore pbcommand numpy h5py ConsensusCore unanimity
 smrtflow:         sbt
 pbtranscript:     scipy networkx pysam pbcore pbcommand pbcoretools pbdagcon
+pbccs:            unanimity
 unanimity:        h5py boost swig cmake htslib pbbam seqan
 #
 pblaa:             htslib pbbam seqan unanimity
