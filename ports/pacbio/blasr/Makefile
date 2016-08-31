@@ -101,6 +101,7 @@ $(PREFIX)/var/pkg/$(_NAME): | do-build
              bin/sawriter \
              bin/bax2bam \
              bin/bam2bax \
+             bin/bam2plx \
         > $@
 do-clean:
 	rm -rf $(_WRKSRC)/utils/bax2bam/build
