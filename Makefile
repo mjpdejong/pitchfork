@@ -133,7 +133,8 @@ GenomicConsensus: pbcore pbcommand numpy h5py ConsensusCore unanimity
 smrtflow:         sbt
 pbtranscript:     scipy networkx pysam pbcore pbcommand pbcoretools pbdagcon
 pbccs:            unanimity
-unanimity:        h5py boost swig cmake htslib pbbam seqan
+unanimity:        h5py boost swig cmake htslib pbbam seqan pbcopper
+pbcopper:         cmake boost zlib
 #
 pblaa:             htslib pbbam seqan unanimity
 ppa:               boost cmake pbbam htslib
@@ -384,6 +385,8 @@ pbcoretools:
 pbtranscript:
 	$(MAKE) -C ports/pacbio/$@ do-install
 unanimity:
+	$(MAKE) -C ports/pacbio/$@ do-install
+pbcopper:
 	$(MAKE) -C ports/pacbio/$@ do-install
 #
 pblaa:
