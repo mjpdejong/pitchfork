@@ -11,4 +11,3 @@ HAVE_CMAKE  =
 HAVE_HDF5   = ${HOME}/hdf5-1.8.13-linux-x86_64-shared
 #VERBOSE     = 1
 #export VERBOSE
-pbcopper_VERSION = e43335e2faacc0808d292304f08f2975623a7ede

@@ -15,6 +15,7 @@ $(_WRKSRC):
 ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
 	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
+	cd $(_WRKSRC)/include/pbcopper/json/internal && $(CURL) -L -O https://raw.githubusercontent.com/nlohmann/json/f86fe57c18c8e97ce3665380dc6cf46f8e42a36f/src/json.hpp
 else
 	ln -sfn $($(_NAME)_REPO) $(_WRKSRC)
 endif
