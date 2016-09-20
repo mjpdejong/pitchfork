@@ -119,7 +119,7 @@ pbh5tools:        h5py pbcore
 pbbarcode:        pbh5tools pbcore numpy h5py
 pbcoretools:      pbcore pbcommand
 pbcommand:        xmlbuilder jsonschema avro requests iso8601 numpy tabulate
-pbsmrtpipe:       pbcommand jinja2 networkx pbcore pbcommand pyparsing pydot jsonschema xmlbuilder requests fabric
+pbsmrtpipe:       pbcommand jinja2 networkx pbcore pbcommand pyparsing pydot jsonschema xmlbuilder requests fabric nose
 falcon_kit:       networkx daligner dazzdb damasker pbdagcon pypeFLOW
 falcon_polish:    falcon_kit blasr GenomicConsensus pbcoretools
 falcon:           falcon_polish # an alias
