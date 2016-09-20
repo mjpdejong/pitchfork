@@ -11,9 +11,9 @@ addons:
       - ubuntu-toolchain-r-test
       - george-edison55-precise-backports
     packages:
-      - gcc-4.9
-      - g++-4.9
-      - gfortran-4.9
+      - gcc-4.8
+      - g++-4.8
+      - gfortran-4.8
       - graphviz
       - python-dev
       - pep8
