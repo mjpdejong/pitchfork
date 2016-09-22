@@ -40,7 +40,7 @@ OPSYS     := $(shell $(UNAME) -s)
 
 CFLAGS    ?= -fPIC -I$(PREFIX)/include
 CXXFLAGS  ?= $(CFLAGS)
-LDFLAGS   ?= -L$(PREFIX)/lib
+LDFLAGS   ?= -L$(PREFIX)/lib -L$(PREFIX)/lib64
 
 BOOST_ROOT = $(PREFIX)
 HDF5_ROOT  = $(PREFIX)

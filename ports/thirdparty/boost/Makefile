@@ -31,9 +31,11 @@ $(_WRKSRC)/project-config.jam: | do-extract
 
 do-build: $(STAGING)/$(_NAME)/lib/libboost_system.a
 $(STAGING)/$(_NAME)/lib/libboost_system.a: | do-config
-	(cd $(_WRKSRC) && ./bjam -s NO_BZIP2=1 \
-                                 --stagedir=$(STAGING)/$(_NAME) \
-                                 stage) >& build.log || $(PFHOME)/bin/diewith build.log
+	(cd $(_WRKSRC) && \
+         $(SED) -i -e "s|using gcc ;|using gcc : $(shell $(CXX) -dumpversion) : $(CXX) ;|" project-config.jam && \
+         ./bjam -s NO_BZIP2=1 \
+                --stagedir=$(STAGING)/$(_NAME) \
+                stage) >& build.log || $(PFHOME)/bin/diewith build.log
 do-clean:
 	rm -f build.log
 	cd $(_WRKSRC) && ./bjam --clean
