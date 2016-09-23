@@ -23,7 +23,7 @@ $(_WRKSRC)/libopenblas.$(DYLIB): | do-extract
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
 	rm -rf $(STAGING)/$(_NAME)
-	$(MAKE) -C $(_WRKSRC) PREFIX=$(STAGING)/$(_NAME) install >& install.log || $(PFHOME)/bin/diewith install.log
+	$(MAKE) -j1 -C $(_WRKSRC) PREFIX=$(STAGING)/$(_NAME) install >& install.log || $(PFHOME)/bin/diewith install.log
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
 do-clean:
