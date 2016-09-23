@@ -32,6 +32,7 @@ do-clean:
 	rm -rf $(STAGING)/$(_NAME)
 do-flush:
 	rm -rf $(_WRKSRC) || true
+do-distclean: do-flush
 
 ifneq ($(origin HAVE_OPENBLAS),undefined)
 _OPENBLAS=$(HAVE_OPENBLAS)
