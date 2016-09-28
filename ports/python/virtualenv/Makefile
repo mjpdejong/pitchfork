@@ -25,9 +25,9 @@ $(PREFIX)/var/pkg/$(_NAME): | do-extract
 	rsync -aKx $(shell dirname $(PYTHON))/../lib/python2.7/pydoc* $(PREFIX)/lib/python2.7/
 	rsync -aKx $(shell dirname $(PYTHON))/../bin/pydoc* $(PREFIX)/bin/
 	cd $(PREFIX) && \
-        find lib/python* include/python* bin/pip* bin/python* \
-             bin/activate* bin/easy_install* bin/wheel | sort -r \
-        > $@
+        find lib/python*   include/python*   bin/pip*  bin/python* \
+             bin/activate* bin/easy_install* bin/wheel bin/pytdoc* \
+        | sort -r > $@
 ifeq ($(OPSYS),Darwin)
 	cp -a $(PYTHON) $(PREFIX)/bin/
 endif
