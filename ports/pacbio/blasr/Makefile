@@ -96,13 +96,18 @@ $(PREFIX)/var/pkg/$(_NAME): | do-build
 	cd $(_WRKSRC)/utils/bax2bam && tar cf - bin | tar xf - -C $(PREFIX)/
 	cd $(_WRKSRC)/utils/bam2bax && tar cf - bin | tar xf - -C $(PREFIX)/
 	cd $(PREFIX) && \
-        find bin/blasr \
+        find bin/blasr      \
              bin/loadPulses \
-             bin/pls2fasta \
-             bin/sawriter \
-             bin/bax2bam \
-             bin/bam2bax \
-             bin/bam2plx \
+             bin/pls2fasta  \
+             bin/sawriter   \
+             bin/bax2bam    \
+             bin/bam2bax    \
+             bin/bam2plx    \
+             bin/samFilter  \
+             bin/samtoh5    \
+             bin/samtom4    \
+             bin/sdpMatcher \
+             bin/toAfg      \
         > $@
 do-clean:
 	rm -rf $(_WRKSRC)/utils/bax2bam/build
