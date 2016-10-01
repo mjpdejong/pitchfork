@@ -92,6 +92,7 @@ do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
 	cd $(_WRKSRC) && tar cf - blasr | tar xf - -C $(PREFIX)/bin/
 	cd $(_WRKSRC)/utils && tar cf - loadPulses pls2fasta sawriter | tar xf - -C $(PREFIX)/bin/
+	cd $(_WRKSRC)/utils && tar cf - samFilter samtoh5 samtom4 sdpMatcher toAfg | tar xf - -C $(PREFIX)/bin/
 	cd $(_WRKSRC)/utils/bax2bam && tar cf - bin | tar xf - -C $(PREFIX)/
 	cd $(_WRKSRC)/utils/bam2bax && tar cf - bin | tar xf - -C $(PREFIX)/
 	cd $(PREFIX) && \
