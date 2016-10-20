@@ -1,8 +1,8 @@
 include ../../../mk/pitchfork.mk
 
 # Local variables
-_NAME             = pbalign
-$(_NAME)_REPO    ?= git://github.com/PacificBiosciences/$(_NAME)
+_NAME             = FALCON_unzip
+$(_NAME)_REPO    ?= git://github.com/PacificBiosciences/FALCON_unzip
 _WRKSRC           = $(WORKDIR)/$(_NAME)
 $(_NAME)_VERSION ?= HEAD
 
@@ -21,8 +21,6 @@ do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-fetch
 	$(PIP) install --no-deps $(DEVOPT) $(_WRKSRC)/
 	@echo pip uninstall $(_NAME) > $@
-do-clean:
 do-distclean:
-	test -d $(_WRKSRC) && cd $(_WRKSRC) && $(GIT) clean -xdf || true
-do-flush:
-	rm -rf $(_WRKSRC)
+	cd $(_WRKSRC) && $(GIT) clean -xdf
+do-clean:
