@@ -25,7 +25,7 @@ $(_WRKSRC)/_build/Makefile: | do-fetch
      && $(CMAKE) \
           -Dpbcopper_build_tests=OFF \
           -DZLIB_INCLUDE_DIRS=$(PREFIX)/include \
-          -DZLIB_LIBRARIES=$(PREFIX)/lib/libz.so \
+          -DZLIB_LIBRARIES=$(PREFIX)/lib/libz.${DYLIB} \
           -DBoost_INCLUDE_DIRS=$(BOOST_ROOT)/include \
         ..
 do-build:

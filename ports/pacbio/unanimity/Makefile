@@ -27,7 +27,7 @@ $(_WRKSRC)/_build/Makefile: | do-fetch
      && $(CMAKE) \
           -DUNY_build_tests=OFF \
           -DZLIB_INCLUDE_DIRS=$(PREFIX)/include \
-          -DZLIB_LIBRARIES=$(PREFIX)/lib/libz.so \
+          -DZLIB_LIBRARIES=$(PREFIX)/lib/libz.${DYLIB} \
           -DBoost_INCLUDE_DIRS=$(BOOST_ROOT)/include \
           -DPacBioBAM_INCLUDE_DIRS=$(PREFIX)/include \
           -DPacBioBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
