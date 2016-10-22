@@ -1,9 +1,9 @@
 include ../../../mk/pitchfork.mk
 
 # Local variables
-_NAME   = gmap-2015-12-31
+_NAME   = gmap-2016-05-01
 _URL    = http://research-pub.gene.com/gmap/src
-_FILE   = gmap-gsnap-2015-12-31.v7.tar.gz
+_FILE   = gmap-gsnap-2016-05-01.tar.gz
 _WRKSRC = $(WORKDIR)/$(_NAME)
 ifneq ($(OPSYS),Darwin)
 LDFLAGS += -Wl,-rpath,'$$\$$\$$$$ORIGIN/../lib'
@@ -17,7 +17,6 @@ $(_FILE):
 	$(PFHOME)/bin/pitchfork fetch --url $(_URL)/$@
 do-extract: $(_WRKSRC)
 $(_WRKSRC): | do-fetch
-	$(MD5SUM) -c MD5SUM || exit
 	tar zxf $(_FILE) -C $(WORKDIR)
 do-config: $(_WRKSRC)/config.log
 $(_WRKSRC)/config.log: | do-extract
