@@ -1,7 +1,7 @@
 include ../../../mk/pitchfork.mk
 
 # Local variables
-_NAME   = Cython-0.24
+_NAME   = Cython-0.23.3
 _URL    = https://pypi.python.org/packages/source/C/Cython
 _WRKSRC = $(WORKDIR)/$(_NAME)
 LDFLAGS = -L$(PREFIX)/lib
@@ -10,7 +10,6 @@ export LDFLAGS
 # Local works
 do-extract: | $(_WRKSRC)
 $(_WRKSRC):
-	$(MD5SUM) -c MD5SUM || exit
 	tar zxf $(_NAME).tar.gz -C $(WORKDIR)
 do-fetch: | $(_NAME).tar.gz
 $(_NAME).tar.gz:
