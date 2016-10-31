@@ -43,9 +43,11 @@ do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
 	rsync -ax $(_WRKSRC)/_build/ccs $(PREFIX)/bin/
 	@echo bin/ccs > $@ 
-	    CMAKE_COMMAND=$(CMAKE) \
+	     CMAKE_COMMAND=$(CMAKE) \
         Boost_INCLUDE_DIRS=$(BOOST_ROOT)/include \
               SWIG_COMMAND=$(shell . $(PREFIX)/setup-env.sh && which swig) \
+     pbcopper_INCLUDE_DIRS=$(PREFIX)/include \
+        pbcopper_LIBRARIES=$(PREFIX)/lib/libpbcopper.a \
                    VERBOSE=1 \
         $(PIP) install --verbose --upgrade --no-deps $(DEVOPT) $(_WRKSRC)/
 	@echo pip uninstall $(_NAME) >> $@
