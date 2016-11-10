@@ -26,3 +26,4 @@ pbcore_VERSION           = 1bf6b9095b36896a79472899409d21c36d87e6cd
 pbbam_VERSION            = b332694b714a1dad694755a5f95a858dc5ff0198
 GenomicConsensus_VERSION = 4d1dfec063890ad54ed4ade1dc0543d475fa6aae
 unanimity_VERSION        = d980152880de71d3819babb2f49a344f0825a9df
+pbcopper_VERSION         = cc8ca03b53c4b458f261f8ef0efde717e2c0eeb2
