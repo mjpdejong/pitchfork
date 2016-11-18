@@ -14,12 +14,12 @@ dataset -h
 pbalign -h
 pbindex -h
 pbmerge -h
-pbservice -h
 pbsmrtpipe -h
 pbtestkit-runner -h
 pbtools-runner -h
 pbvalidate -h
-#sawriter
+which sawriter
+#pbservice -h
 #fasta-to-reference --help
 python -c "from pbcore.io import *"
 for myfile in bin/pitchfork; do
