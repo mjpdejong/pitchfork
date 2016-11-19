@@ -4,10 +4,11 @@ include ../../../mk/pitchfork.mk
 include ../../../mk/chkcxx.mk
 
 # Local variables
-_NAME            = blasr
-$(_NAME)_REPO   ?= git://github.com/PacificBiosciences/$(_NAME)
-_WRKSRC          = $(WORKDIR)/$(_NAME)
-$(_NAME)_VERSION?= HEAD
+_NAME             = blasr
+$(_NAME)_REPO    ?= git://github.com/PacificBiosciences/$(_NAME)
+_WRKSRC           = $(WORKDIR)/$(_NAME)
+$(_NAME)_VERSION ?= HEAD
+_REVISION         = $(shell cd $(_WRKSRC) && $(GIT) rev-parse --short $($(_NAME)_VERSION) || true)
 ifeq ($(OPSYS),FreeBSD)
 MAKE            := $(MAKE) DL_LIBFLAGS=''
 endif
@@ -109,6 +110,7 @@ $(PREFIX)/var/pkg/$(_NAME): | do-build
              bin/sdpMatcher \
              bin/toAfg      \
         > $@
+	@echo "# $(_REVISION)" >> $@ 
 do-clean:
 	rm -rf $(_WRKSRC)/utils/bax2bam/build
 	rm -rf $(_WRKSRC)/utils/bam2bax/build clean
