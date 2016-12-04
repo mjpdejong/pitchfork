@@ -38,6 +38,8 @@ $(_WRKSRC)/build/Makefile: | do-fetch
               -DBoost_INCLUDE_DIRS=$(BOOST_ROOT)/include \
               -DZLIB_INCLUDE_DIRS=$(ZLIB_ROOT)/include \
               -DZLIB_LIBRARIES=$(ZLIB_ROOT)/lib/libz.$(DYLIB) \
+              -Dpbcopper_INCLUDE_DIRS=$(PREFIX)/include \
+              -Dpbcopper_LIBRARIES=$(PREFIX)/lib/libpbcopper.a \
             ..
 do-build:
 	$(MAKE) VERBOSE=1 -C $(_WRKSRC)/build
