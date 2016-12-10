@@ -29,6 +29,7 @@ python:           ccache zlib openssl ncurses readline
 endif
 readline:         ccache ncurses
 samtools:         ccache zlib ncurses
+bamtools:         ccache zlib
 cmake:            ccache zlib
 ncurses:          ccache
 openblas:         ccache
@@ -74,7 +75,7 @@ pickleshare:      pip
 ptyprocess:       pip
 pycrypto:         pip
 pyparsing:        pip
-pysam:            pip zlib
+pysam:            pip zlib cython
 python-dateutil:  pip
 pytz:             pip
 requests:         pip
@@ -234,6 +235,8 @@ boost:
 endif
 samtools:
 	$(MAKE) -C ports/thirdparty/$@ ${RULE}
+bamtools:
+	$(MAKE) -C ports/thirdparty/$@ ${RULE}
 ifeq ($(origin HAVE_CMAKE),undefined)
 cmake:
 	$(MAKE) -C ports/thirdparty/$@ ${RULE}
@@ -294,7 +297,7 @@ h5py:
 docopt:
 	$(MAKE) -j1 -C ports/python/$@ ${RULE}
 pysam:
-	$(MAKE) -j1 -C ports/python/$@ ${RULE}
+	$(MAKE) -s -j1 -C ports/python/$@ ${RULE}
 six:
 	$(MAKE) -j1 -C ports/python/$@ ${RULE}
 rdflib:
