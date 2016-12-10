@@ -217,6 +217,8 @@ def pitchfork(args):
                 if myfile[0] == '#':
                     continue
                 myfile = '%s/%s' % (_prefix, myfile.strip())
+                if os.path.islink(myfile) and os.path.isdir(myfile):
+                    continue
                 if os.path.isfile(myfile) or os.path.islink(myfile):
                     print 'rm -f %s' % myfile
                     try:
