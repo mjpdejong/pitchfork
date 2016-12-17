@@ -221,11 +221,11 @@ hdf5:
 	$(MAKE) -C ports/thirdparty/$@ provided
 endif
 gtest:
-	# No do-clean rule here.
 	$(MAKE) -C ports/thirdparty/$@ do-install
+# gtest misses a do-clean rule.
 gmock:
-	# No do-clean rule here.
 	$(MAKE) -C ports/thirdparty/$@ do-install
+# gmock misses a do-clean rule.
 ifeq ($(origin HAVE_BOOST),undefined)
 boost:
 	$(MAKE) -C ports/thirdparty/$@ ${RULE}
