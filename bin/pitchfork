@@ -206,13 +206,15 @@ def pitchfork(args):
             return
         mypath = '%s/var/pkg/%s' % (_prefix, myargs['name'])
         if not os.path.exists(mypath):
-            mypath = glob('%s*' % mypath)[0]
+            _list = glob('%s*' % mypath)
+            if len(_list) > 0:
+                mypath = _list[0]
         if os.path.exists(mypath):
             with open(mypath) as f:
                 content = f.readlines()
             if ' uninstall ' in content[0]:
                 print '%s/bin/pip uninstall -y %s' % (_prefix, content[0].strip().split(' ')[-1])
-                backticks('%s/bin/pip uninstall -y %s' % (_prefix, content[0].strip().split(' ')[-1]))
+                _out, _exit, _err = backticks('%s/bin/pip uninstall -y %s' % (_prefix, content[0].strip().split(' ')[-1]))
             for myfile in content:
                 if myfile[0] == '#':
                     continue
@@ -288,14 +290,23 @@ def pitchfork(args):
                 try:
                     _out, _exit, _err = backticks('rm -f ./%s' % os.path.basename(_prefetch))
                     _out, _exit, _err = backticks('ln -sfn %s ./' % _prefetch)
-                    _out, _exit, _err = backticks('grep %s MD5SUM | md5sum -c -' % os.path.basename(_prefetch), checked=True)
+                    _out, _exit, _err = backticks('grep %s MD5SUM | md5sum -c -' % os.path.basename(_prefetch))
                     return
                 except:
                     if os.path.exists(_prefetch):
                         os.remove(_prefetch)
                     raise
             print "fetching %s" % _url
-            _out, _exit, _err = backticks('curl -k -L -O %s' % _url, checked=True)
+            _out, _exit, _err = backticks('which curl || which wget')
+            if not _exit == 0:
+                raise Exception('[ERROR] please install curl or wget')
+            elif len(_out) < 1:
+                raise Exception('[ERROR] `which` return nothing')
+            elif 'curl' in _out[0]:
+                _fetch = 'curl -k -L -O'
+            elif 'wget' in _out[0]:
+                _fetch = 'wget'
+            _out, _exit, _err = backticks('%s %s' % (_fetch, _url))
             _out, _exit, _err = backticks('grep %s MD5SUM | md5sum -c -' % os.path.basename(_prefetch))
             _out, _exit, _err = backticks('cp %s %s/%s' % (_archive, _distfiles, _prjname))
             return
