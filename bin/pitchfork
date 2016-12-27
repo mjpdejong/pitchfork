@@ -81,26 +81,11 @@ def parseargs(args):
                      metavar='<path>',
                      type=str,
                      help='The path of where you want to deploy software to.')
-    sub.add_argument('--workspace',
+    sub.add_argument('--workdir',
                      metavar='<path>',
                      type=str,
                      help='The path of where you want to build software on.')
-    sub.add_argument('--boost',
-                     metavar='<path>',
-                     type=str,
-                     help='The path to pre-extracted boost headers.')
-    sub.add_argument('--ccache',
-                     metavar='<path>',
-                     type=str,
-                     help='The path of pre-installed ccache executable.')
-    sub.add_argument('--python',
-                     metavar='<path>',
-                     type=str,
-                     help='The path of pre-installed python executable of your choice.')
-    sub.add_argument('--zlib',
-                     metavar='<path>',
-                     type=str,
-                     help='The parent path of pre-installed zlib headers+libraries.')
+    sub.add_argument('--ccache', action='store_true', help='build ccache, too.')
 
     sub = subparsers.add_parser('installed',
                                 help='''Check what's being installed''',
@@ -131,39 +116,47 @@ def parseargs(args):
 def pitchfork(args):
     # log('[INFO] args:', args)
     if args.subcommand == 'configure':
+        import readline
         myargs = vars(args)
         if myargs['prefix']:
-            print "PREFIX      = %s" % myargs['prefix']
-        if myargs['workspace']:
-            print "WORKDIR     = %s" % myargs['workspace']
-        if myargs['boost']:
-            if len("%s" % myargs['boost']) < 1:
-                print "HAVE_BOOST  ="
-            elif len(glob("%s" % myargs['boost'])) < 1:
-                print "HAVE_BOOST  ="
-            else:
-                print "HAVE_BOOST  = %s" % os.path.abspath(myargs['boost'])
+            _prefix = myargs['prefix']
+        else:
+            _prefix = '%s/deployment' % _projhome
+            line = raw_input('path of PREFIX? ("stop" to quit, press enter to skip): ')
+            if line == 'stop':
+                return
+            elif not line == '':
+                _prefix = line
+        if not os.path.exists(os.path.dirname(_prefix)):
+            log("[ERROR] '%s' not found." % os.path.dirname(_prefix))
+            sys.exit(1)
+        if myargs['workdir']:
+            _workdir = myargs['workdir']
+        else:
+            _workdir = '%s/workspace' % _projhome
+            line = raw_input('path of WORKDIR? ("stop" to quit, press enter to skip): ')
+            if line == 'stop':
+                return
+            elif not line == '':
+                _workdir = line
+        if not os.path.exists(os.path.dirname(_workdir)):
+            log("[ERROR] '%s' not found." % os.path.dirname(_workdir))
+            sys.exit(1)
+        _distfiles = '%s/distfiles' % _projhome
+        line = raw_input('path for download? ("stop" to quit, press enter to skip): ')
+        if line == 'stop':
+            return
+        elif not line == '':
+            _distfiles = line
+        if not os.path.exists(os.path.dirname(_distfiles)):
+            log("[ERROR] '%s' not found." % os.path.dirname(_distfiles))
+            sys.exit(1)
+        print "# please copy following lines into your settings.mk file"
         if myargs['ccache']:
-            if len("%s" % myargs['ccache']) < 1:
-                print "HAVE_CCACHE ="
-            elif len(glob("%s" % myargs['ccache'])) < 1:
-                print "HAVE_CCACHE ="
-            else:
-                print "HAVE_CCACHE = %s" % os.path.abspath(myargs['ccache'])
-        if myargs['python']:
-            if len("%s" % myargs['python']) < 1:
-                print "HAVE_PYTHON ="
-            elif len(glob("%s" % myargs['python'])) < 1:
-                print "HAVE_PYTHON ="
-            else:
-                print "HAVE_PYTHON = %s" % os.path.abspath(myargs['python'])
-        if myargs['zlib']:
-            if len("%s" % myargs['zlib']) < 1:
-                print "HAVE_ZLIB   ="
-            elif len(glob("%s" % myargs['zlib'])) < 1:
-                print "HAVE_ZLIB   ="
-            else:
-                print "HAVE_ZLIB   = %s" % os.path.abspath(myargs['zlib'])
+            print "USE_CCACHE  = yes"
+        print "PREFIX      = %s" % _prefix
+        print "WORKDIR     = %s" % _workdir
+        print "DISTFILES   = %s" % _distfiles
         return
 
     _prefix = ''
