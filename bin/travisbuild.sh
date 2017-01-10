@@ -10,6 +10,4 @@ make init
 # The containers have 2 dedicated cores available and 4 GB of memory.
 # other limits - 50 minutes build time
 #                20 Gb disk space including the container
-make -l 2 reseq-core
-make -l 2 pbfalcon
-#make -l 2 smrtflow
+make -l 2 pbalign
