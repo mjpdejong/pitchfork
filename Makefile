@@ -379,7 +379,7 @@ bam2fastx:
 pbcore:
 	$(MAKE) -C ports/pacbio/$@ pbcore_VERSION=02a2ccacd1daf36480a989417990be66fb750b49 ${RULE}
 pbcommand:
-	$(MAKE) -C ports/pacbio/$@ ${RULE}
+	$(MAKE) -C ports/pacbio/$@ pbcommand_VERSION=211f810fda0c925beba9a7ebf14cb799bf12107b ${RULE}
 pbsmrtpipe:
 	$(MAKE) -C ports/pacbio/$@ ${RULE}
 falcon_kit:
