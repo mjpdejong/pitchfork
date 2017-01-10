@@ -161,16 +161,6 @@ world: \
        reseq-core  pbfalcon  kineticsTools \
        isoseq-core ssw_lib   mash          \
        ipython     cram      nose
-legacy_pbalign: legacy_blasr pbcore samtools pbcommand
-	$(MAKE) -C ports/pacbio/pbalign do-uninstall do-distclean
-	$(MAKE) -C ports/pacbio/pbalign pbalign_VERSION=56782fe18849ba9014508fcaca6bfdfd29e8bd1b ${RULE}
-legacy_blasr: ccache samtools cmake boost htslib gtest hdf5
-	$(MAKE) -C ports/pacbio/pbbam do-uninstall do-distclean
-	$(MAKE) -C ports/pacbio/blasr do-uninstall do-distclean
-	$(MAKE) -C ports/pacbio/blasr_libcpp do-uninstall do-distclean
-	$(MAKE) -C ports/pacbio/pbbam pbbam_VERSION=a1dc0665f6e28dc4babecf8981ae966ac1528a4a ${RULE}
-	$(MAKE) -C ports/pacbio/blasr_libcpp blasr_libcpp_VERSION=3fae61d1834426359e7ffe0786bfcd4da054793a ${RULE}
-	$(MAKE) -C ports/pacbio/blasr blasr_VERSION=994e5fc10c2aee600ff83991d59a30213f89a3d2 ${RULE}
 
 # rules
 ifeq ($(origin USE_CCACHE),undefined)
@@ -364,15 +354,15 @@ CramUnit:
 
 #
 blasr_libcpp:
-	$(MAKE) -C ports/pacbio/$@ ${RULE}
+	$(MAKE) -C ports/pacbio/blasr_libcpp blasr_libcpp_VERSION=3fae61d1834426359e7ffe0786bfcd4da054793a ${RULE}
 blasr:
-	$(MAKE) -C ports/pacbio/$@ ${RULE}
+	$(MAKE) -C ports/pacbio/blasr blasr_VERSION=994e5fc10c2aee600ff83991d59a30213f89a3d2 ${RULE}
 htslib:
 	$(MAKE) -C ports/pacbio/$@ ${RULE}
 seqan:
 	$(MAKE) -C ports/pacbio/$@ ${RULE}
 pbbam:
-	$(MAKE) -C ports/pacbio/$@ ${RULE}
+	$(MAKE) -C ports/pacbio/pbbam pbbam_VERSION=a1dc0665f6e28dc4babecf8981ae966ac1528a4a ${RULE}
 dazzdb:
 	$(MAKE) -C ports/pacbio/$@ ${RULE}
 daligner:
@@ -387,7 +377,7 @@ bam2fastx:
 	$(MAKE) -C ports/pacbio/$@ ${RULE}
 #
 pbcore:
-	$(MAKE) -C ports/pacbio/$@ ${RULE}
+	$(MAKE) -C ports/pacbio/$@ pbcore_VERSION=02a2ccacd1daf36480a989417990be66fb750b49 ${RULE}
 pbcommand:
 	$(MAKE) -C ports/pacbio/$@ ${RULE}
 pbsmrtpipe:
@@ -411,7 +401,7 @@ pbreports:
 kineticsTools:
 	$(MAKE) -C ports/pacbio/$@ ${RULE}
 pbalign:
-	$(MAKE) -C ports/pacbio/$@ ${RULE}
+	$(MAKE) -C ports/pacbio/pbalign pbalign_VERSION=56782fe18849ba9014508fcaca6bfdfd29e8bd1b ${RULE}
 pbcoretools:
 	$(MAKE) -C ports/pacbio/$@ ${RULE}
 pbtranscript:

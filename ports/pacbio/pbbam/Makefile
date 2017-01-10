@@ -42,7 +42,7 @@ do-build:
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
 	mkdir -p $(STAGING)/$(_NAME)
-	cd $(_WRKSRC)/build && tar cf - bin lib | tar xf - -C $(STAGING)/$(_NAME)
+	cd $(_WRKSRC) && tar cf - bin lib | tar xf - -C $(STAGING)/$(_NAME)
 	cd $(_WRKSRC) && tar cf - include | tar xf - -C $(STAGING)/$(_NAME)
 	cd $(STAGING)/$(_NAME) && tar cf - bin lib include | tar xf - -C $(PREFIX)
 	cd $(STAGING)/$(_NAME) && find bin lib include ! -type d > $@
