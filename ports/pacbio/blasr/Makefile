@@ -63,6 +63,12 @@ $(_WRKSRC)/utils/bax2bam/build/Makefile: | do-fetch
               -DZLIB_LIBRARIES=$(ZLIB_ROOT)/lib/libz.$(DYLIB) \
               -DZLIB_INCLUDE_DIRS=$(ZLIB_ROOT)/include \
               -DBax2Bam_EXE_LINKER_FLAGS="$(HAVE_SZ) " \
+              -DBLASR_INCLUDE_DIRS=$(PREFIX)/include/alignment \
+              -DPBIHDF_INCLUDE_DIRS=$(PREFIX)/include/hdf \
+              -DPBDATA_INCLUDE_DIRS=$(PREFIX)/include/pbdata \
+              -DBLASR_LIBRARIES=$(PREFIX)/lib/libblasr.$(DYLIB) \
+              -DPBIHDF_LIBRARIES=$(PREFIX)/lib/libpbihdf.$(DYLIB) \
+              -DPBDATA_LIBRARIES=$(PREFIX)/lib/libpbdata.$(DYLIB) \
         ..
 $(_WRKSRC)/utils/bam2bax/build/Makefile: | do-fetch
 	mkdir -p $(_WRKSRC)/utils/bam2bax/build
@@ -78,6 +84,12 @@ $(_WRKSRC)/utils/bam2bax/build/Makefile: | do-fetch
               -DZLIB_LIBRARIES=$(ZLIB_ROOT)/lib/libz.$(DYLIB) \
               -DZLIB_INCLUDE_DIRS=$(ZLIB_ROOT)/include \
               -DBam2Bax_EXE_LINKER_FLAGS="$(HAVE_SZ) " \
+              -DBLASR_INCLUDE_DIRS=$(PREFIX)/include/alignment \
+              -DPBIHDF_INCLUDE_DIRS=$(PREFIX)/include/hdf \
+              -DPBDATA_INCLUDE_DIRS=$(PREFIX)/include/pbdata \
+              -DBLASR_LIBRARIES=$(PREFIX)/lib/libblasr.$(DYLIB) \
+              -DPBIHDF_LIBRARIES=$(PREFIX)/lib/libpbihdf.$(DYLIB) \
+              -DPBDATA_LIBRARIES=$(PREFIX)/lib/libpbdata.$(DYLIB) \
         ..
 do-build:
 ifneq ($(wildcard $(PREFIX)/lib/libsz.so),)
