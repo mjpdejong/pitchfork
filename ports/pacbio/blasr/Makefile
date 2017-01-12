@@ -19,6 +19,11 @@ else
 HDF5_LIBFLAGS = -lhdf5_cpp -lhdf5
 HAVE_SZ       =
 endif
+ifeq ($(wildcard $(PREFIX)/lib/libpbbam.$(DYLIB),)
+PacBioBAM_LIBRARIES = $(PREFIX)/lib/libpbbam.a
+else
+PacBioBAM_LIBRARIES = $(PREFIX)/lib/libpbbam.$(DYLIB)
+endif
 
 # Local works
 do-extract:
@@ -56,7 +61,7 @@ $(_WRKSRC)/utils/bax2bam/build/Makefile: | do-fetch
               -DBoost_INCLUDE_DIRS=$(BOOST_ROOT)/include \
               -DHDF5_RootDir=$(HDF5_ROOT) \
               -DPacBioBAM_INCLUDE_DIRS=$(PREFIX)/include \
-              -DPacBioBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
+              -DPacBioBAM_LIBRARIES=$(PacBioBAM_LIBRARIES) \
               -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/src/htslib/include \
               -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/lib/libhts.a \
               -DGTEST_SRC_DIR=$(PREFIX)/src/gtest \
@@ -77,7 +82,7 @@ $(_WRKSRC)/utils/bam2bax/build/Makefile: | do-fetch
               -DBoost_INCLUDE_DIRS=$(BOOST_ROOT)/include \
               -DHDF5_RootDir=$(HDF5_ROOT) \
               -DPacBioBAM_INCLUDE_DIRS=$(PREFIX)/include \
-              -DPacBioBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
+              -DPacBioBAM_LIBRARIES=$(PacBioBAM_LIBRARIES) \
               -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/src/htslib/include \
               -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/lib/libhts.a \
               -DGTEST_SRC_DIR=$(PREFIX)/src/gtest \
