@@ -19,10 +19,10 @@ else
 HDF5_LIBFLAGS = -lhdf5_cpp -lhdf5
 HAVE_SZ       =
 endif
-ifeq ($(wildcard $(PREFIX)/lib/libpbbam.$(DYLIB),)
-PacBioBAM_LIBRARIES = $(PREFIX)/lib/libpbbam.a
-else
+ifneq ($(wildcard $(PREFIX)/lib/libpbbam.$(DYLIB)),)
 PacBioBAM_LIBRARIES = $(PREFIX)/lib/libpbbam.$(DYLIB)
+else
+PacBioBAM_LIBRARIES = $(PREFIX)/lib/libpbbam.a
 endif
 
 # Local works
@@ -127,7 +127,7 @@ $(PREFIX)/var/pkg/$(_NAME): | do-build
              bin/sdpMatcher \
              bin/toAfg      \
         > $@
-	@echo "# $(_REVISION)" >> $@ 
+	@echo "# $(_REVISION)" >> $@
 do-clean:
 	rm -rf $(_WRKSRC)/utils/bax2bam/build
 	rm -rf $(_WRKSRC)/utils/bam2bax/build clean
