@@ -50,13 +50,15 @@ OPSYS     := $(shell $(UNAME) -s)
 
 ifeq ($(OPSYS),Darwin)
 CFLAGS    ?= -fPIC -I$(PREFIX)/include
+LDFLAGS   ?= -L$(PREFIX)/lib
 else ifeq ($(shell echo $(CC)|grep gcc>&/dev/null&&echo yes||true),yes)
 CFLAGS    ?= -fPIC -I$(PREFIX)/include -D_GNU_SOURCE
+LDFLAGS   ?= -L$(PREFIX)/lib -L$(PREFIX)/lib64 -static-libstdc++
 else
 CFLAGS    ?= -fPIC -I$(PREFIX)/include
+LDFLAGS   ?= -L$(PREFIX)/lib -L$(PREFIX)/lib64
 endif
 CXXFLAGS  ?= $(CFLAGS)
-LDFLAGS   ?= -L$(PREFIX)/lib -L$(PREFIX)/lib64
 
 
 BOOST_ROOT = $(PREFIX)
