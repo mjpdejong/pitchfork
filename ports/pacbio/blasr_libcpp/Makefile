@@ -41,9 +41,9 @@ $(PREFIX)/var/pkg/$(_NAME): | do-build
 	cp -a $(_WRKSRC)/hdf/libpbihdf.$(DYLIB) $(PREFIX)/lib/
 	cp -a $(_WRKSRC)/pbdata/libpbdata.$(DYLIB) $(PREFIX)/lib/
 	cd $(_WRKSRC) && tar cf - `find alignment hdf pbdata \( -name '*.hpp' -or -name '*.h' \)` | tar xf - -C $(PREFIX)/include
-	echo $(PREFIX)/lib/alignment/libblasr.$(DYLIB) > $@
-	echo $(PREFIX)/lib/hdf/libpbihdf.$(DYLIB) >> $@
-	echo $(PREFIX)/pbdata/libpbdata.$(DYLIB) >> $@
+	echo $(PREFIX)/lib/libblasr.$(DYLIB) > $@
+	echo $(PREFIX)/lib/libpbihdf.$(DYLIB) >> $@
+	echo $(PREFIX)/lib/libpbdata.$(DYLIB) >> $@
 	cd $(_WRKSRC) && find alignment hdf pbdata \( -name '*.hpp' -or -name '*.h' \) | awk '{print "include/"$$1}' >> $@
 	@echo "# $(_REVISION)" >> $@ 
 do-clean:
