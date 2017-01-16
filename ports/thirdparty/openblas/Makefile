@@ -28,9 +28,14 @@ $(PREFIX)/var/pkg/$(_NAME): | do-build
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
 else
 ifeq ($(wildcard $(HAVE_OPENBLAS)/libopenblas*),)
-$(error $(HAVE_OPENBLAS)/libopenblas* not found)
+ifeq ($(wildcard $(HAVE_OPENBLAS)/lib/libopenblas*),)
+$(error library under $(HAVE_OPENBLAS) not found)
+else
+_OPENBLAS = $(HAVE_OPENBLAS)/lib
 endif
+else
 _OPENBLAS = $(HAVE_OPENBLAS)
+endif
 _NAME     = OpenBLAS
 do-install:
 	rm -rf $(STAGING)/$(_NAME)
