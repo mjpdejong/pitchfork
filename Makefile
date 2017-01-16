@@ -165,12 +165,9 @@ world: \
 # rules
 ifeq ($(origin USE_CCACHE),undefined)
 ccache: ;
-else ifeq ($(origin HAVE_CCACHE),undefined)
-ccache:
-	$(MAKE) -C ports/thirdparty/$@ ${RULE}
 else
 ccache:
-	$(MAKE) -C ports/thirdparty/$@ provided
+	$(MAKE) -C ports/thirdparty/$@ ${RULE}
 endif
 ifeq ($(OPSYS),Darwin)
 HAVE_ZLIB ?=
@@ -182,50 +179,26 @@ else
 readline:
 	$(MAKE) -C ports/thirdparty/$@ ${RULE}
 ncurses:
-ifeq ($(origin HAVE_NCURSES),undefined)
 	$(MAKE) -C ports/thirdparty/$@ ${RULE}
-else
-	$(MAKE) -C ports/thirdparty/$@ provided
-endif
 tcl:
 	$(MAKE) -j1 -C ports/thirdparty/$@ ${RULE}
 libpng:
 	$(MAKE) -C ports/thirdparty/$@ ${RULE}
 endif
-ifeq ($(origin HAVE_OPENBLAS),undefined)
 openblas:
 	$(MAKE) -C ports/thirdparty/$@ ${RULE}
-else
-openblas:
-	$(MAKE) -C ports/thirdparty/$@ provided
-endif
-ifeq ($(origin HAVE_ZLIB),undefined)
 zlib:
 	$(MAKE) -C ports/thirdparty/$@ ${RULE}
-else
-zlib:
-	$(MAKE) -C ports/thirdparty/$@ provided
-endif
-ifeq ($(origin HAVE_HDF5),undefined)
 hdf5:
 	$(MAKE) -C ports/thirdparty/$@ ${RULE}
-else
-hdf5:
-	$(MAKE) -C ports/thirdparty/$@ provided
-endif
 gtest:
 	$(MAKE) -C ports/thirdparty/$@ do-install
 # gtest misses a do-clean rule.
 gmock:
 	$(MAKE) -C ports/thirdparty/$@ do-install
 # gmock misses a do-clean rule.
-ifeq ($(origin HAVE_BOOST),undefined)
 boost:
 	$(MAKE) -C ports/thirdparty/$@ ${RULE}
-else
-boost:
-	$(MAKE) -C ports/thirdparty/$@ provided
-endif
 samtools:
 	$(MAKE) -C ports/thirdparty/$@ ${RULE}
 bamtools:

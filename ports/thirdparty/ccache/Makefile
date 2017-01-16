@@ -7,11 +7,11 @@ _FILE	= $(_NAME).tar.gz
 _WRKSRC = $(WORKDIR)/$(_NAME)
 ifneq ($(OPSYS),Darwin)
 LDFLAGS += -Wl,-rpath,'$$\$$\$$$$ORIGIN/../lib'
-LDFLAGS += -static-libgcc
 export LDFLAGS
 endif
 
 # Local works
+ifeq ($(origin HAVE_CCACHE),undefined)
 do-extract: $(_WRKSRC)
 $(_WRKSRC): | do-fetch
 	tar zxf $(_FILE) -C $(WORKDIR)
@@ -35,19 +35,10 @@ $(PREFIX)/var/pkg/$(_NAME): | do-build
 	cd $(STAGING)/$(_NAME)/bin && ln -sfn ccache CC
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
-do-clean:
-	$(MAKE) -C $(_WRKSRC) clean
-	rm -f build.log install.log
-	rm -rf $(STAGING)/$(_NAME)
-do-distclean:
-	$(MAKE) -C $(_WRKSRC) distclean
-	rm -f $(_WRKSRC)/config.log config.log
-do-flush:
-	rm -rf $(_WRKSRC) || true
-ifneq ($(origin HAVE_CCACHE),undefined)
+else
 _CCACHE = $(shell ../../../bin/checkCCACHE $(HAVE_CCACHE))
 _NAME   = ccache
-provided:
+do-install:
 	rm -rf $(STAGING)/$(_NAME)
 	mkdir -p $(STAGING)/$(_NAME)/bin
 	cd $(STAGING)/$(_NAME)/bin && ln -sfn $(_CCACHE) ccache
@@ -59,3 +50,12 @@ provided:
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
 endif
+do-clean:
+	$(MAKE) -C $(_WRKSRC) clean
+	rm -f build.log install.log
+	rm -rf $(STAGING)/$(_NAME)
+do-distclean:
+	$(MAKE) -C $(_WRKSRC) distclean
+	rm -f $(_WRKSRC)/config.log config.log
+do-flush:
+	rm -rf $(_WRKSRC) || true

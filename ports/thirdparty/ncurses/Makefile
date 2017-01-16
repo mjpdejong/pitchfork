@@ -7,11 +7,11 @@ _FILE   = $(_NAME).tar.gz
 _WRKSRC = $(WORKDIR)/$(_NAME)
 ifneq ($(OPSYS),Darwin)
 LDFLAGS += -Wl,-rpath,'\$$\$$ORIGIN/../lib'
-LDFLAGS += -static-libgcc
 export LDFLAGS
 endif
 
 # Local works
+ifeq ($(origin HAVE_NCURSES),undefined)
 do-fetch: $(_FILE)
 $(_FILE):
 	$(PFHOME)/bin/pitchfork fetch --url $(_URL)/$@
@@ -29,18 +29,12 @@ do-build: $(_WRKSRC)/lib/libncurses.$(DYLIB)
 $(_WRKSRC)/lib/libncurses.$(DYLIB): | do-config
 	$(MAKE) -C $(_WRKSRC) >& build.log || $(PFHOME)/bin/diewith build.log
 do-install: $(PREFIX)/var/pkg/$(_NAME)
-do-clean:
-	$(MAKE) -C $(_WRKSRC) clean
-	rm -f build.log install.log
-	rm -rf $(STAGING)/$(_NAME)
-do-distclean:
-	$(MAKE) -C $(_WRKSRC) distclean
-	rm -f $(_WRKSRC)/config.log config.log
-do-flush:
-	rm -rf $(_WRKSRC) || true
 $(PREFIX)/var/pkg/$(_NAME): | do-build
 	rm -rf $(STAGING)/$(_NAME)
-	$(MAKE) -C $(_WRKSRC) prefix=$(STAGING)/$(_NAME) install >& install.log || $(PFHOME)/bin/diewith install.log
+	$(MAKE) -C $(_WRKSRC) \
+            prefix=$(STAGING)/$(_NAME) \
+            ticdir=$(STAGING)/$(_NAME)/share/terminfo \
+            install >& install.log || $(PFHOME)/bin/diewith install.log
 	if [ -d $(STAGING)/$(_NAME)/lib64 ]; then \
            ln -s libncurses.$(DYLIB) $(STAGING)/$(_NAME)/lib64/libcurses.$(DYLIB); \
         elif [ -d $(STAGING)/$(_NAME)/lib ]; then \
@@ -50,10 +44,10 @@ $(PREFIX)/var/pkg/$(_NAME): | do-build
         fi
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
-ifneq ($(origin HAVE_NCURSES),undefined)
+else
 _NCURSES := $(shell ../../../bin/checkNCURSES $(HAVE_NCURSES))
 _NAME     = ncurses
-provided: $(PREFIX)/var/pkg/$(_NAME)
+do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	rm -rf $(STAGING)/$(_NAME)
 	mkdir -p $(STAGING)/$(_NAME)/include
@@ -72,3 +66,12 @@ $(PREFIX)/var/pkg/$(_NAME):
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
 endif
+do-clean:
+	$(MAKE) -C $(_WRKSRC) clean
+	rm -f build.log install.log
+	rm -rf $(STAGING)/$(_NAME)
+do-distclean:
+	$(MAKE) -C $(_WRKSRC) distclean
+	rm -f $(_WRKSRC)/config.log config.log
+do-flush:
+	rm -rf $(_WRKSRC) || true

@@ -10,11 +10,11 @@ _FILE   = $(_NAME).tar.gz
 _WRKSRC = $(WORKDIR)/$(_NAME)
 ifneq ($(OPSYS),Darwin)
 LDFLAGS += -Wl,-rpath,'\$$\$$ORIGIN/../lib'
-LDFLAGS += -static-libgcc -static-libstdc++
 export LDFLAGS
 endif
 
 # Local works
+ifeq ($(origin HAVE_HDF5),undefined)
 do-fetch: $(_FILE)
 $(_FILE):
 	$(PFHOME)/bin/pitchfork fetch --url $(_URL)/$@
@@ -35,20 +35,10 @@ $(PREFIX)/var/pkg/$(_NAME): | do-build
 	$(MAKE) -C $(_WRKSRC) install >& install.log || $(PFHOME)/bin/diewith install.log
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
-do-clean:
-	$(MAKE) -C $(_WRKSRC) clean
-	rm -f build.log install.log
-	rm -rf $(STAGING)/$(_NAME)
-do-distclean:
-	$(MAKE) -C $(_WRKSRC) distclean
-	rm -f $(_WRKSRC)/config.log config.log
-do-flush:
-	rm -rf $(_WRKSRC) || true
-
-ifneq ($(origin HAVE_HDF5),undefined)
+else
 _HDF5 = $(shell ../../../bin/checkHDF5 $(HAVE_HDF5))
 _NAME = hdf5
-provided:
+do-install:
 	rm -rf $(STAGING)/$(_NAME)
 	mkdir -p $(STAGING)/$(_NAME)/include
 	mkdir -p $(STAGING)/$(_NAME)/lib
@@ -61,3 +51,13 @@ provided:
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
 endif
+do-clean:
+	$(MAKE) -C $(_WRKSRC) clean
+	rm -f build.log install.log
+	rm -rf $(STAGING)/$(_NAME)
+do-distclean:
+	$(MAKE) -C $(_WRKSRC) distclean
+	rm -f $(_WRKSRC)/config.log config.log
+do-flush:
+	rm -rf $(_WRKSRC) || true
+
