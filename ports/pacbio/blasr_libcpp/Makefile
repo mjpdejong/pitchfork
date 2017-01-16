@@ -11,6 +11,7 @@ $(_NAME)_VERSION ?= HEAD
 _REVISION         = $(shell cd $(_WRKSRC) && $(GIT) rev-parse --short $($(_NAME)_VERSION) || true)
 
 # Local works
+ifeq ($(origin HAVE_BLASR_LIBCPP),undefined)
 do-fetch: $(_WRKSRC)
 $(_WRKSRC):
 ifeq ($(wildcard $($(_NAME)_REPO)),)
@@ -37,15 +38,31 @@ do-build:
 	$(MAKE) -C $(_WRKSRC) libblasr
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
-	cp -a $(_WRKSRC)/alignment/libblasr.$(DYLIB) $(PREFIX)/lib/
-	cp -a $(_WRKSRC)/hdf/libpbihdf.$(DYLIB) $(PREFIX)/lib/
-	cp -a $(_WRKSRC)/pbdata/libpbdata.$(DYLIB) $(PREFIX)/lib/
+	cp -aL $(_WRKSRC)/alignment/libblasr.$(DYLIB) $(PREFIX)/lib/
+	cp -aL $(_WRKSRC)/hdf/libpbihdf.$(DYLIB) $(PREFIX)/lib/
+	cp -aL $(_WRKSRC)/pbdata/libpbdata.$(DYLIB) $(PREFIX)/lib/
 	cd $(_WRKSRC) && tar cf - `find alignment hdf pbdata \( -name '*.hpp' -or -name '*.h' \)` | tar xf - -C $(PREFIX)/include
 	echo $(PREFIX)/lib/libblasr.$(DYLIB) > $@
 	echo $(PREFIX)/lib/libpbihdf.$(DYLIB) >> $@
 	echo $(PREFIX)/lib/libpbdata.$(DYLIB) >> $@
 	cd $(_WRKSRC) && find alignment hdf pbdata \( -name '*.hpp' -or -name '*.h' \) | awk '{print "include/"$$1}' >> $@
-	@echo "# $(_REVISION)" >> $@ 
+	@echo "# $(_REVISION)" >> $@
+else
+ifeq($(wildcard $(HAVE_BLASR_LIBCPP)/lib/libblasr.$(DYLIB)),)
+    $(error $(HAVE_BLASR_LIBCPP)/lib/libblasr.$(DYLIB) not found)
+endif
+do-install: $(PREFIX)/var/pkg/$(_NAME)
+$(PREFIX)/var/pkg/$(_NAME):
+	cp -aL $(HAVE_BLASR_LIBCPP)/lib/libblasr.$(DYLIB) $(PREFIX)/lib/
+	cp -aL $(HAVE_BLASR_LIBCPP)/lib/libpbihdf.$(DYLIB) $(PREFIX)/lib/
+	cp -aL $(HAVE_BLASR_LIBCPP)/lib/libpbdata.$(DYLIB) $(PREFIX)/lib/
+	cd $(HAVE_BLASR_LIBCPP)/lib && tar cf - `find alignment hdf pbdata \( -name '*.hpp' -or -name '*.h' \)` | tar xf - -C $(PREFIX)/include
+	echo $(PREFIX)/lib/libblasr.$(DYLIB) > $@
+	echo $(PREFIX)/lib/libpbihdf.$(DYLIB) >> $@
+	echo $(PREFIX)/lib/libpbdata.$(DYLIB) >> $@
+	cd $(_WRKSRC) && find alignment hdf pbdata \( -name '*.hpp' -or -name '*.h' \) | awk '{print "include/"$$1}' >> $@
+	@echo "# $(shell basename $(HAVE_BLASR_LIBCPP)|awk -F - '{print $$NF}')" >> $@
+endif
 do-clean:
 	$(MAKE) -C $(_WRKSRC) clean
 do-distclean:
