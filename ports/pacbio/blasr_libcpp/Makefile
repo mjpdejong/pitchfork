@@ -48,7 +48,7 @@ $(PREFIX)/var/pkg/$(_NAME): | do-build
 	cd $(_WRKSRC) && find alignment hdf pbdata \( -name '*.hpp' -or -name '*.h' \) | awk '{print "include/"$$1}' >> $@
 	@echo "# $(_REVISION)" >> $@
 else
-ifeq($(wildcard $(HAVE_BLASR_LIBCPP)/lib/libblasr.$(DYLIB)),)
+ifeq ($(wildcard $(HAVE_BLASR_LIBCPP)/lib/libblasr.$(DYLIB)),)
     $(error $(HAVE_BLASR_LIBCPP)/lib/libblasr.$(DYLIB) not found)
 endif
 do-install: $(PREFIX)/var/pkg/$(_NAME)
