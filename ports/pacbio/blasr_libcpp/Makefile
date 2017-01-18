@@ -56,11 +56,11 @@ $(PREFIX)/var/pkg/$(_NAME):
 	cp -aL $(HAVE_BLASR_LIBCPP)/lib/libblasr.$(DYLIB) $(PREFIX)/lib/
 	cp -aL $(HAVE_BLASR_LIBCPP)/lib/libpbihdf.$(DYLIB) $(PREFIX)/lib/
 	cp -aL $(HAVE_BLASR_LIBCPP)/lib/libpbdata.$(DYLIB) $(PREFIX)/lib/
-	cd $(HAVE_BLASR_LIBCPP)/lib && tar cf - `find alignment hdf pbdata \( -name '*.hpp' -or -name '*.h' \)` | tar xf - -C $(PREFIX)/include
+	cd $(HAVE_BLASR_LIBCPP)/include && tar cf - `find alignment hdf pbdata \( -name '*.hpp' -or -name '*.h' \)` | tar xf - -C $(PREFIX)/include
 	echo lib/libblasr.$(DYLIB) > $@
 	echo lib/libpbihdf.$(DYLIB) >> $@
 	echo lib/libpbdata.$(DYLIB) >> $@
-	cd $(_WRKSRC) && find alignment hdf pbdata \( -name '*.hpp' -or -name '*.h' \) | awk '{print "include/"$$1}' >> $@
+	cd $(HAVE_BLASR_LIBCPP)/include && find alignment hdf pbdata \( -name '*.hpp' -or -name '*.h' \) | awk '{print "include/"$$1}' >> $@
 	@echo "# $(shell basename $(HAVE_BLASR_LIBCPP)|awk -F - '{print $$NF}')" >> $@
 endif
 do-clean:
