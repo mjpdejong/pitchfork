@@ -41,8 +41,8 @@ else
 _BOOST = $(shell ../../../bin/checkBOOST $(HAVE_BOOST))
 _NAME  = boost
 do-install:
-	ln -fs $(_BOOST)/include/boost $(PREFIX)/include/
-	ln -fs $(_BOOST)/lib/libboost* $(PREFIX)/lib/
+	ln -fsn $(_BOOST)/include/boost $(PREFIX)/include/
+	ln -fsn $(_BOOST)/lib/libboost* $(PREFIX)/lib/
 	echo include/boost > $(PREFIX)/var/pkg/$(_NAME)
 	cd $(PREFIX) && find lib -name 'libbost*' >> $(PREFIX)/var/pkg/$(_NAME)
 endif
