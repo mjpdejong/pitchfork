@@ -135,7 +135,7 @@ ifeq ($(wildcard $(HAVE_BLASR)/bin/blasr),)
 endif
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
-	cd $(HAVE_BLASR) && \
+	cd $(HAVE_BLASR)/bin && \
         tar cf - blasr      \
                  loadPulses \
                  pls2fasta  \
