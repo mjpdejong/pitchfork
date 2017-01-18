@@ -26,6 +26,7 @@ PacBioBAM_LIBRARIES = $(PREFIX)/lib/libpbbam.a
 endif
 
 # Local works
+ifeq ($(origin HAVE_BLASR),undefined)
 do-extract:
 do-fetch: $(_WRKSRC)
 $(_WRKSRC):
@@ -128,6 +129,41 @@ $(PREFIX)/var/pkg/$(_NAME): | do-build
              bin/toAfg      \
         > $@
 	@echo "# $(_REVISION)" >> $@
+else
+ifeq ($(wildcard $(HAVE_BLASR)/bin/blasr),)
+    $(error $(HAVE_BLASR)/bin/blasr not find)
+endif
+do-install: $(PREFIX)/var/pkg/$(_NAME)
+$(PREFIX)/var/pkg/$(_NAME):
+	cd $(HAVE_BLASR) && \
+        find bin/blasr      \
+             bin/loadPulses \
+             bin/pls2fasta  \
+             bin/sawriter   \
+             bin/bax2bam    \
+             bin/bam2bax    \
+             bin/bam2plx    \
+             bin/samFilter  \
+             bin/samtoh5    \
+             bin/samtom4    \
+             bin/sdpMatcher \
+             bin/toAfg      \
+        | tar xf - -C $(PREFIX)/bin/
+	cd $(PREFIX) && \
+        find bin/blasr      \
+             bin/loadPulses \
+             bin/pls2fasta  \
+             bin/sawriter   \
+             bin/bax2bam    \
+             bin/bam2bax    \
+             bin/bam2plx    \
+             bin/samFilter  \
+             bin/samtoh5    \
+             bin/samtom4    \
+             bin/sdpMatcher \
+             bin/toAfg      \
+        > $@
+endif
 do-clean:
 	rm -rf $(_WRKSRC)/utils/bax2bam/build
 	rm -rf $(_WRKSRC)/utils/bam2bax/build clean
