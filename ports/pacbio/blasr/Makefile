@@ -136,18 +136,18 @@ endif
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	cd $(HAVE_BLASR) && \
-        find bin/blasr      \
-             bin/loadPulses \
-             bin/pls2fasta  \
-             bin/sawriter   \
-             bin/bax2bam    \
-             bin/bam2bax    \
-             bin/bam2plx    \
-             bin/samFilter  \
-             bin/samtoh5    \
-             bin/samtom4    \
-             bin/sdpMatcher \
-             bin/toAfg      \
+        tar cf - bin/blasr      \
+                 bin/loadPulses \
+                 bin/pls2fasta  \
+                 bin/sawriter   \
+                 bin/bax2bam    \
+                 bin/bam2bax    \
+                 bin/bam2plx    \
+                 bin/samFilter  \
+                 bin/samtoh5    \
+                 bin/samtom4    \
+                 bin/sdpMatcher \
+                 bin/toAfg      \
         | tar xf - -C $(PREFIX)/bin/
 	cd $(PREFIX) && \
         find bin/blasr      \
