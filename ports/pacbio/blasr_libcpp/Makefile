@@ -42,9 +42,9 @@ $(PREFIX)/var/pkg/$(_NAME): | do-build
 	cp -aL $(_WRKSRC)/hdf/libpbihdf.$(DYLIB) $(PREFIX)/lib/
 	cp -aL $(_WRKSRC)/pbdata/libpbdata.$(DYLIB) $(PREFIX)/lib/
 	cd $(_WRKSRC) && tar cf - `find alignment hdf pbdata \( -name '*.hpp' -or -name '*.h' \)` | tar xf - -C $(PREFIX)/include
-	echo $(PREFIX)/lib/libblasr.$(DYLIB) > $@
-	echo $(PREFIX)/lib/libpbihdf.$(DYLIB) >> $@
-	echo $(PREFIX)/lib/libpbdata.$(DYLIB) >> $@
+	echo lib/libblasr.$(DYLIB) > $@
+	echo lib/libpbihdf.$(DYLIB) >> $@
+	echo lib/libpbdata.$(DYLIB) >> $@
 	cd $(_WRKSRC) && find alignment hdf pbdata \( -name '*.hpp' -or -name '*.h' \) | awk '{print "include/"$$1}' >> $@
 	@echo "# $(_REVISION)" >> $@
 else
@@ -57,9 +57,9 @@ $(PREFIX)/var/pkg/$(_NAME):
 	cp -aL $(HAVE_BLASR_LIBCPP)/lib/libpbihdf.$(DYLIB) $(PREFIX)/lib/
 	cp -aL $(HAVE_BLASR_LIBCPP)/lib/libpbdata.$(DYLIB) $(PREFIX)/lib/
 	cd $(HAVE_BLASR_LIBCPP)/lib && tar cf - `find alignment hdf pbdata \( -name '*.hpp' -or -name '*.h' \)` | tar xf - -C $(PREFIX)/include
-	echo $(PREFIX)/lib/libblasr.$(DYLIB) > $@
-	echo $(PREFIX)/lib/libpbihdf.$(DYLIB) >> $@
-	echo $(PREFIX)/lib/libpbdata.$(DYLIB) >> $@
+	echo lib/libblasr.$(DYLIB) > $@
+	echo lib/libpbihdf.$(DYLIB) >> $@
+	echo lib/libpbdata.$(DYLIB) >> $@
 	cd $(_WRKSRC) && find alignment hdf pbdata \( -name '*.hpp' -or -name '*.h' \) | awk '{print "include/"$$1}' >> $@
 	@echo "# $(shell basename $(HAVE_BLASR_LIBCPP)|awk -F - '{print $$NF}')" >> $@
 endif
