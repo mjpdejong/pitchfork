@@ -23,6 +23,8 @@ ifneq ($(wildcard $(PREFIX)/lib/libpbbam.$(DYLIB)),)
 PacBioBAM_LIBRARIES = $(PREFIX)/lib/libpbbam.$(DYLIB)
 else
 PacBioBAM_LIBRARIES = $(PREFIX)/lib/libpbbam.a
+LDFLAGS += -lpthread
+export LDFLAGS
 endif
 
 # Local works
