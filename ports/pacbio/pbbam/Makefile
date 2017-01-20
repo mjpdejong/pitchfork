@@ -67,7 +67,7 @@ $(PREFIX)/var/pkg/$(_NAME):
                  bin/pbindex \
                  lib/libpbbam* \
                  include/pbbam | tar xf - -C $(STAGING)/$(_NAME)
-	cd $(STAGING)/$(_NAME) && tar cf - lib include | tar xf - -C $(PREFIX)
-	cd $(STAGING)/$(_NAME) && find lib include ! -type d > $@
+	cd $(STAGING)/$(_NAME) && tar cf - bin lib include | tar xf - -C $(PREFIX)
+	cd $(STAGING)/$(_NAME) && find bin lib include ! -type d > $@
 	@echo "# $(HAVE_PBBAM)" >> $@
 endif
