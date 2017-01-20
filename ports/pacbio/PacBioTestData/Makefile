@@ -12,11 +12,12 @@ do-fetch: $(_WRKSRC)
 $(_WRKSRC):
 ifeq ($(wildcard $($(_NAME)_REPO)),)
 	$(GIT) clone $($(_NAME)_REPO) $@
-	$(GIT) lfs pull
+	ln -sfn ../data $@/pbtestdata/data
 	cd $(_WRKSRC) && $(GIT) checkout $($(_NAME)_VERSION)
 DEVOPT =
 else
-	ln -sfn $($(_NAME)_REPO) $(_WRKSRC)
+	ln -sfn $($(_NAME)_REPO) $@
+	ln -sfn ../data $@/pbtestdata/data
 DEVOPT = -e
 endif
 do-install: $(PREFIX)/var/pkg/$(_NAME)
