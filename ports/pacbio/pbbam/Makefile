@@ -59,7 +59,14 @@ do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME):
 	rm -rf $(STAGING)/$(_NAME)
 	mkdir -p $(STAGING)/$(_NAME)
-	cd $(HAVE_PBBAM) && tar cf - lib/libpbbam* include/pbbam | tar xf - -C $(STAGING)/$(_NAME)
+	cd $(HAVE_PBBAM) && \
+        tar cf - bin/pbindex \
+                 bin/pbindexdump \
+                 bin/bam2sam \
+                 bin/pbmerge \
+                 bin/pbindex \
+                 lib/libpbbam* \
+                 include/pbbam | tar xf - -C $(STAGING)/$(_NAME)
 	cd $(STAGING)/$(_NAME) && tar cf - lib include | tar xf - -C $(PREFIX)
 	cd $(STAGING)/$(_NAME) && find lib include ! -type d > $@
 	@echo "# $(HAVE_PBBAM)" >> $@
