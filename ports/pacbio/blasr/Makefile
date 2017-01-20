@@ -23,6 +23,9 @@ ifneq ($(wildcard $(PREFIX)/lib/libpbbam.$(DYLIB)),)
 PacBioBAM_LIBRARIES = $(PREFIX)/lib/libpbbam.$(DYLIB)
 else
 PacBioBAM_LIBRARIES = $(PREFIX)/lib/libpbbam.a
+endif
+ifeq ($(OPSYS),Darwin)
+else ifeq (,$(findstring /usr/lib/gcc,$(shell $(CC) -print-libgcc-file-name)))
 LDFLAGS += -lpthread
 export LDFLAGS
 endif
