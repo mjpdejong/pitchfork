@@ -14,15 +14,19 @@ MAKE            := $(MAKE) DL_LIBFLAGS=''
 endif
 ifneq ($(wildcard $(PREFIX)/lib/libsz.so),)
 HDF5_LIBFLAGS = -lhdf5_cpp -lhdf5 -lsz
-HAVE_SZ       = -lsz
+CMAKE_LDFLAGS = -lsz
 else
 HDF5_LIBFLAGS = -lhdf5_cpp -lhdf5
-HAVE_SZ       =
+CMAKE_LDFLAGS =
 endif
 ifneq ($(wildcard $(PREFIX)/lib/libpbbam.$(DYLIB)),)
 PacBioBAM_LIBRARIES = $(PREFIX)/lib/libpbbam.$(DYLIB)
 else
 PacBioBAM_LIBRARIES = $(PREFIX)/lib/libpbbam.a
+endif
+ifeq ($(OPSYS),Darwin)
+else ifeq (,$(findstring /usr/lib/gcc,$(shell $(CC) -print-libgcc-file-name)))
+CMAKE_LDFLAGS += -lpthread
 endif
 
 # Local works
@@ -68,7 +72,7 @@ $(_WRKSRC)/utils/bax2bam/build/Makefile: | do-fetch
               -DGTEST_SRC_DIR=$(PREFIX)/src/gtest \
               -DZLIB_LIBRARIES=$(ZLIB_ROOT)/lib/libz.$(DYLIB) \
               -DZLIB_INCLUDE_DIRS=$(ZLIB_ROOT)/include \
-              -DBax2Bam_EXE_LINKER_FLAGS="$(HAVE_SZ) " \
+              -DBax2Bam_EXE_LINKER_FLAGS="$(CMAKE_LDFLAGS)" \
               -DBLASR_INCLUDE_DIRS=$(PREFIX)/include/alignment \
               -DPBIHDF_INCLUDE_DIRS=$(PREFIX)/include/hdf \
               -DPBDATA_INCLUDE_DIRS=$(PREFIX)/include/pbdata \
@@ -89,7 +93,7 @@ $(_WRKSRC)/utils/bam2bax/build/Makefile: | do-fetch
               -DGTEST_SRC_DIR=$(PREFIX)/src/gtest \
               -DZLIB_LIBRARIES=$(ZLIB_ROOT)/lib/libz.$(DYLIB) \
               -DZLIB_INCLUDE_DIRS=$(ZLIB_ROOT)/include \
-              -DBam2Bax_EXE_LINKER_FLAGS="$(HAVE_SZ) " \
+              -DBam2Bax_EXE_LINKER_FLAGS="$(CMAKE_LDFLAGS)" \
               -DBLASR_INCLUDE_DIRS=$(PREFIX)/include/alignment \
               -DPBIHDF_INCLUDE_DIRS=$(PREFIX)/include/hdf \
               -DPBDATA_INCLUDE_DIRS=$(PREFIX)/include/pbdata \
