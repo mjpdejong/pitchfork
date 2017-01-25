@@ -20,9 +20,10 @@ $(_WRKSRC)/libbz2.so: | do-extract
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
 	rm -rf $(STAGING)/$(_NAME)
-	mkdir -p $(STAGING)/$(_NAME)/lib $(STAGING)/$(_NAME)/include
-	cp -a $(_WRKSRC)/bzlib.h $(STAGING)/$(_NAME)/include
-	cp -a $(_WRKSRC)/libbz2.so* $(STAGING)/$(_NAME)/lib
+	mkdir -p $(STAGING)/$(_NAME)/lib $(STAGING)/$(_NAME)/include $(STAGING)/$(_NAME)/bin
+	cp -aL $(_WRKSRC)/bzip2-shared $(STAGING)/$(_NAME)/bin/bzip2
+	cp -aL $(_WRKSRC)/bzlib.h $(STAGING)/$(_NAME)/include
+	cp -aL $(_WRKSRC)/libbz2.so* $(STAGING)/$(_NAME)/lib
 	ln -sfn libbz2.so.1.0 $(STAGING)/$(_NAME)/lib/libbz2.so.1
 	ln -sfn libbz2.so.1   $(STAGING)/$(_NAME)/lib/libbz2.so
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
