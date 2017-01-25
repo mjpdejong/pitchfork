@@ -5,7 +5,13 @@ die(){
     exit 1
 }
 which uname >& /dev/null || die "[ERROR] unable to run uname, consider doing yum install coreutils"
-which curl  >& /dev/null || die "[ERROR] unable to run curl, consider doing yum install curl"
+if which curl >& /dev/null; then
+    : #
+elif which wget >& /dev/null; then
+    : #
+else
+    die "[ERROR] unable to run curl or wget, consider doing yum install curl or wget"
+fi
 which git   >& /dev/null || die "[ERROR] unable to run git, consider doing yum install git"
 which rsync >& /dev/null || die "[ERROR] unable to run rsync, consider doing yum install rsync"
 
