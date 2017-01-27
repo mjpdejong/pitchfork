@@ -8,6 +8,9 @@ _CFLAGS = $(CFLAGS)
 _FILE   = $(_NAME).tar.gz
 
 # Local works
+ifneq ($(origin HAVE_OPENSSL),undefined)
+    HAVE_LIBSSL = $(HAVE_OPENSSL)
+endif
 ifeq ($(origin HAVE_LIBSSL),undefined)
 do-extract: $(_WRKSRC)
 $(_WRKSRC): | do-fetch
@@ -30,7 +33,11 @@ $(PREFIX)/var/pkg/$(_NAME): | do-build
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
 else
-ifeq ($(wildcard $(HAVE_LIBSSL)/lib/libssl*),)
+ifneq ($(wildcard $(HAVE_LIBSSL)/lib/libssl*),)
+    _SSLLIB = $(HAVE_LIBSSL)/lib
+else ifneq ($(wildcard $(HAVE_LIBSSL)/lib64/libssl*),)
+    _SSLLIB = $(HAVE_LIBSSL)/lib64
+else
     $(error $(HAVE_LIBSSL)/lib/libssl* not found)
 endif
 do-install: $(PREFIX)/var/pkg/$(_NAME)
@@ -41,12 +48,12 @@ $(PREFIX)/var/pkg/$(_NAME):
                  $(STAGING)/$(_NAME)/include \
                  $(STAGING)/$(_NAME)/lib/pkgconfig \
                  $(STAGING)/$(_NAME)/etc
-	cp -aL $(HAVE_LIBSSL)/lib/pkgconfig/libcrypto.pc $(STAGING)/$(_NAME)/lib/pkgconfig/
-	cp -aL $(HAVE_LIBSSL)/lib/pkgconfig/*ssl.pc      $(STAGING)/$(_NAME)/lib/pkgconfig/
-	cp -aL $(HAVE_LIBSSL)/lib/pkgconfig/libtls.pc    $(STAGING)/$(_NAME)/lib/pkgconfig/
-	cp -aL $(HAVE_LIBSSL)/lib/libcrypto*             $(STAGING)/$(_NAME)/lib/
-	cp -aL $(HAVE_LIBSSL)/lib/libssl*                $(STAGING)/$(_NAME)/lib/
-	cp -aL $(HAVE_LIBSSL)/lib/libtls*                $(STAGING)/$(_NAME)/lib/
+	cp -aL $(_SSLLIB)/pkgconfig/libcrypto.pc $(STAGING)/$(_NAME)/lib/pkgconfig/
+	cp -aL $(_SSLLIB)/pkgconfig/*ssl.pc      $(STAGING)/$(_NAME)/lib/pkgconfig/
+	cp -aL $(_SSLLIB)/pkgconfig/libtls.pc    $(STAGING)/$(_NAME)/lib/pkgconfig/
+	cp -aL $(_SSLLIB)/libcrypto*             $(STAGING)/$(_NAME)/lib/
+	cp -aL $(_SSLLIB)/libssl*                $(STAGING)/$(_NAME)/lib/
+	cp -aL $(_SSLLIB)/libtls*                $(STAGING)/$(_NAME)/lib/
 	cp -aL $(HAVE_LIBSSL)/etc/ssl                    $(STAGING)/$(_NAME)/etc/
 	cp -aL $(HAVE_LIBSSL)/include/openssl            $(STAGING)/$(_NAME)/include/
 	cp -aL $(HAVE_LIBSSL)/include/tls.h              $(STAGING)/$(_NAME)/include/
