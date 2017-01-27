@@ -56,6 +56,8 @@ $(PREFIX)/var/pkg/$(_NAME): | do-build
              bin/dazcon   \
         > $@
 	@echo "# $(_REVISION)" >> $@ 
+do-test:
+	$(MAKE) -C $(_WRKSRC)/build check
 do-clean:
 	$(MAKE) -C $(_WRKSRC)/build clean
 do-distclean:

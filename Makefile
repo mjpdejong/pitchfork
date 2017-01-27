@@ -447,6 +447,8 @@ distclean: distclean-blasr_libcpp distclean-blasr distclean-htslib distclean-seq
 test: PacBioTestData test-pbtranscript
 test-pbtranscript: pbtranscript CramUnit
 	$(MAKE) -C ports/pacbio/pbtranscript do-test
+test-pbdagcon: pbdagcon
+	$(MAKE) -C ports/pacbio/pbdagcon do-test
 
 # extra testing section conflicts with other installation
 samtools-0.1.20:         ccache zlib ncurses
