@@ -56,7 +56,7 @@ $(PREFIX)/var/pkg/$(_NAME):
 	#cp -aL $(_SSLLIB)/libtls*                $(STAGING)/$(_NAME)/lib/
 	cp -aL $(HAVE_LIBSSL)/include/openssl            $(STAGING)/$(_NAME)/include/
 	#cp -aL $(HAVE_LIBSSL)/include/tls.h              $(STAGING)/$(_NAME)/include/
-	cp -aL $(HAVE_LIBSSL)/share/man/man1/openssl.1   $(STAGING)/$(_NAME)/share/man/man1/
+	#cp -aL $(HAVE_LIBSSL)/share/man/man1/openssl.1   $(STAGING)/$(_NAME)/share/man/man1/
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
 endif
