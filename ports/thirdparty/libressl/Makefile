@@ -50,7 +50,9 @@ $(PREFIX)/var/pkg/$(_NAME):
                  $(STAGING)/$(_NAME)/etc
 	cp -aL $(_SSLLIB)/pkgconfig/libcrypto.pc $(STAGING)/$(_NAME)/lib/pkgconfig/
 	cp -aL $(_SSLLIB)/pkgconfig/*ssl.pc      $(STAGING)/$(_NAME)/lib/pkgconfig/
-	cp -aL $(_SSLLIB)/pkgconfig/libtls.pc    $(STAGING)/$(_NAME)/lib/pkgconfig/
+	test -e $(_SSLLIB)/pkgconfig/libtls.pc && \
+        cp -aL $(_SSLLIB)/pkgconfig/libtls.pc    $(STAGING)/$(_NAME)/lib/pkgconfig/ || \
+        true
 	cp -aL $(_SSLLIB)/libcrypto*             $(STAGING)/$(_NAME)/lib/
 	cp -aL $(_SSLLIB)/libssl*                $(STAGING)/$(_NAME)/lib/
 	cp -aL $(_SSLLIB)/libtls*                $(STAGING)/$(_NAME)/lib/
