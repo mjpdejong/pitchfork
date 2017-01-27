@@ -14,6 +14,7 @@ endif
 export CC CXX
 
 # Local works
+ifeq ($(origin HAVE_PBDAGCON),undefined)
 do-fetch: $(_WRKSRC)
 $(_WRKSRC):
 ifeq ($(wildcard $($(_NAME)_REPO)),)
@@ -51,11 +52,22 @@ $(PREFIX)/var/pkg/$(_NAME): | do-build
 	cd $(_WRKSRC)/build/src/cpp \
       && tar cf - pbdagcon dazcon \
                   | tar xf - -C $(PREFIX)/bin/
-	cd $(PREFIX) && \
-        find bin/pbdagcon \
+	cd $(PREFIX) \
+     && find bin/pbdagcon \
              bin/dazcon   \
         > $@
 	@echo "# $(_REVISION)" >> $@ 
+else
+do-install: $(PREFIX)/var/pkg/$(_NAME)
+$(PREFIX)/var/pkg/$(_NAME):
+	cd $(HAVE_PBDAGCON)/bin \
+     && tar cf - pbdagcon dazcon \
+                  | tar xf - -C $(PREFIX)/bin/
+	cd $(PREFIX) \
+     && find bin/pbdagcon \
+             bin/dazcon   \
+        > $@
+endif
 do-test:
 	$(MAKE) -C $(_WRKSRC)/build check
 do-clean:
