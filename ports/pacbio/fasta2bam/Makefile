@@ -21,6 +21,11 @@ else
 endif
 CXXFLAGS += -I$(PREFIX)/src/htslib/include
 export CXXFLAGS
+ifneq ($(wildcard $(PREFIX)/lib/libpbbam.$(DYLIB)),)
+PacBioBAM_LIBRARIES = $(PREFIX)/lib/libpbbam.$(DYLIB)
+else
+PacBioBAM_LIBRARIES = $(PREFIX)/lib/libpbbam.a
+endif
 do-config: $(_WRKSRC)/build/Makefile
 $(_WRKSRC)/build/Makefile: | do-fetch
 	mkdir -p $(_WRKSRC)/build
@@ -28,7 +33,7 @@ $(_WRKSRC)/build/Makefile: | do-fetch
      && $(CMAKE) \
               -DCMAKE_C_COMPILER_LAUNCHER=ccache \
               -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
-              -DPacBioBAM_LIBRARIES=$(PREFIX)/lib/libpbbam.$(DYLIB) \
+              -DPacBioBAM_LIBRARIES=$(PacBioBAM_LIBRARIES) \
               -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/src/htslib/include \
               -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/lib/libhts.a \
               -DBoost_INCLUDE_DIRS=$(BOOST_ROOT)/include \
