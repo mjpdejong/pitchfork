@@ -449,6 +449,8 @@ test-pbtranscript: pbtranscript CramUnit
 	$(MAKE) -C ports/pacbio/pbtranscript do-test
 test-pbdagcon: pbdagcon
 	$(MAKE) -C ports/pacbio/pbdagcon do-test
+test-pbfalcon: pbfalcon nose
+	$(MAKE) -C ports/pacbio/pbfalcon do-test
 
 # extra testing section conflicts with other installation
 samtools-0.1.20:         ccache zlib ncurses

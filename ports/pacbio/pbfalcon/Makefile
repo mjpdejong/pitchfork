@@ -28,3 +28,5 @@ do-distclean:
 	cd $(_WRKSRC) && $(GIT) clean -xdf
 do-flush:
 	rm -rf $(_WRKSRC)
+do-test:
+	$(MAKE) -C $(_WRKSRC) utest
