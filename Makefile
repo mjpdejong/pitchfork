@@ -123,7 +123,7 @@ pbcore:           pysam h5py
 pbh5tools:        h5py pbcore
 pbbarcode:        pbh5tools pbcore numpy h5py
 pbcoretools:      pbcore pbcommand
-pbcommand:        xmlbuilder jsonschema avro requests iso8601 numpy tabulate
+pbcommand:        xmlbuilder jsonschema avro requests iso8601 numpy tabulate pytz
 pbsmrtpipe:       pbcommand jinja2 networkx pbcore pbcommand pyparsing pydot jsonschema xmlbuilder requests fabric nose
 falcon_kit:       networkx daligner dazzdb damasker pbdagcon pypeFLOW
 FALCON_unzip:     falcon_kit
