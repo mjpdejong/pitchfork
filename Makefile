@@ -449,7 +449,7 @@ test-pbtranscript: pbtranscript CramUnit
 	$(MAKE) -C ports/pacbio/pbtranscript do-test
 test-pbdagcon: pbdagcon
 	$(MAKE) -C ports/pacbio/pbdagcon do-test
-test-pbfalcon: pbfalcon nose
+test-pbfalcon: pbfalcon nose pbreports
 	$(MAKE) -C ports/pacbio/pbfalcon do-test
 
 # extra testing section conflicts with other installation
