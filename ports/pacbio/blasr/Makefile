@@ -133,8 +133,9 @@ $(PREFIX)/var/pkg/$(_NAME): | do-build
              bin/toAfg      \
         > $@
 	@echo "# $(_REVISION)" >> $@
-do-test:
+do-test-bax2bam:
 	$(MAKE) -C $(_WRKSRC)/utils/bax2bam/build test
+do-test-bam2bax:
 	$(MAKE) -C $(_WRKSRC)/utils/bam2bax/build test
 else
 ifeq ($(wildcard $(HAVE_BLASR)/bin/blasr),)

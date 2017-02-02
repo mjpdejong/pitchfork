@@ -451,8 +451,10 @@ test-pbdagcon: pbdagcon
 	$(MAKE) -C ports/pacbio/pbdagcon do-test
 test-pbfalcon: pbfalcon nose pbreports
 	$(MAKE) -C ports/pacbio/pbfalcon do-test
-test-bam2bax_bax2bam: blasr
-	$(MAKE) -C ports/pacbio/blasr do-test
+test-bam2bax: blasr
+	$(MAKE) -C ports/pacbio/blasr do-test-bam2bax
+test-bax2bam: blasr
+	$(MAKE) -C ports/pacbio/blasr do-test-bax2bam
 
 # extra testing section conflicts with other installation
 samtools-0.1.20:         ccache zlib ncurses
