@@ -455,8 +455,8 @@ test-bam2bax: blasr
 	$(MAKE) -C ports/pacbio/blasr do-test-bam2bax
 test-bax2bam: blasr
 	$(MAKE) -C ports/pacbio/blasr do-test-bax2bam
-test-falcon_polish: falcon_polish
-	$(MAKE) -C ports/pacbio/falcon_polish
+test-falcon_polish: falcon_polish nose
+	$(MAKE) -C ports/pacbio/falcon_polish utest
 
 # extra testing section conflicts with other installation
 samtools-0.1.20:         ccache zlib ncurses
