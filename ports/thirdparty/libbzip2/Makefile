@@ -8,6 +8,7 @@ _WRKSRC  = $(WORKDIR)/bzip2-$(_VERSION)
 _FILE    = bzip2-$(_VERSION).tar.gz
 
 # Local works
+ifeq ($(origin HAVE_LIBBZIP2),undefined)
 do-extract: $(_WRKSRC)
 $(_WRKSRC): | do-fetch
 	tar zxf $(_FILE) -C $(WORKDIR)
@@ -23,11 +24,23 @@ $(PREFIX)/var/pkg/$(_NAME): | do-build
 	mkdir -p $(STAGING)/$(_NAME)/lib $(STAGING)/$(_NAME)/include $(STAGING)/$(_NAME)/bin
 	cp -aL $(_WRKSRC)/bzip2-shared $(STAGING)/$(_NAME)/bin/bzip2
 	cp -aL $(_WRKSRC)/bzlib.h $(STAGING)/$(_NAME)/include
-	cp -aL $(_WRKSRC)/libbz2.so* $(STAGING)/$(_NAME)/lib
-	ln -sfn libbz2.so.1.0 $(STAGING)/$(_NAME)/lib/libbz2.so.1
-	ln -sfn libbz2.so.1   $(STAGING)/$(_NAME)/lib/libbz2.so
+	cp -aL $(_WRKSRC)/libbz2.* $(STAGING)/$(_NAME)/lib
+	ln -sfn libbz2.$(DYLIB).1.0 $(STAGING)/$(_NAME)/lib/libbz2.$(DYLIB).1
+	ln -sfn libbz2.$(DYLIB).1   $(STAGING)/$(_NAME)/lib/libbz2.$(DYLIB)
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
+else
+do-install:
+	rm -rf $(STAGING)/$(_NAME)
+	mkdir -p $(STAGING)/$(_NAME)/lib $(STAGING)/$(_NAME)/include $(STAGING)/$(_NAME)/bin
+	cp -aL $(HAVE_LIBBZIP2)/bin/bzip2 $(STAGING)/$(_NAME)/bin/
+	cp -aL $(HAVE_LIBBZIP2)/include/bzlib.h $(STAGING)/$(_NAME)/include
+	cp -aL $(HAVE_LIBBZIP2)/lib/libbz2.* $(STAGING)/$(_NAME)/lib
+	ln -sfn libbz2.$(DYLIB).1.0 $(STAGING)/$(_NAME)/lib/libbz2.$(DYLIB).1
+	ln -sfn libbz2.$(DYLIB).1   $(STAGING)/$(_NAME)/lib/libbz2.$(DYLIB)
+	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
+	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $(PREFIX)/var/pkg/$(_NAME)
+endif
 do-clean:
 	$(MAKE) -C $(_WRKSRC) clean
 	rm -f build.log install.log
