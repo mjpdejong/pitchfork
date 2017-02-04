@@ -264,7 +264,7 @@ h5py:
 docopt:
 	$(MAKE) -j1 -C ports/python/$@ ${RULE}
 pysam:
-	$(MAKE) -s -j1 -C ports/python/$@ ${RULE}
+	$(MAKE) --no-print-directory -s -j1 -C ports/python/$@ ${RULE}
 six:
 	$(MAKE) -j1 -C ports/python/$@ ${RULE}
 rdflib:
