@@ -153,8 +153,6 @@ PacBioTestData:    pip
 # end of dependencies
 
 # meta rules
-bam2bax: blasr
-bax2bam: blasr
 reseq-core: \
        pbsmrtpipe pbalign blasr pbreports GenomicConsensus pbbam pbcoretools unanimity
 isoseq-core: \
@@ -457,9 +455,9 @@ test-pbdagcon: pbdagcon
 	$(MAKE) -C ports/pacbio/pbdagcon do-test
 test-pbfalcon: pbfalcon nose pbreports
 	$(MAKE) -C ports/pacbio/pbfalcon do-test
-test-bam2bax: blasr
+test-bam2bax: bam2bax
 	$(MAKE) -C ports/pacbio/bam2bax do-test-bam2bax
-test-bax2bam: blasr
+test-bax2bam: bax2bam
 	$(MAKE) -C ports/pacbio/bam2bax do-test-bax2bam
 test-falcon_polish: falcon_polish nose
 	$(MAKE) -C ports/pacbio/falcon_polish do-test
