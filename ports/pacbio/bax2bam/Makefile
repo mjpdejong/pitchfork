@@ -37,9 +37,9 @@ ifeq ($(wildcard $($(_NAME)_REPO)),)
 else
 	ln -sfn $($(_NAME)_REPO) $(_WRKSRC)
 endif
-do-config: $(_WRKSRC)/utils/bax2bam/build/Makefile
-$(_WRKSRC)/utils/bax2bam/build/Makefile: | do-fetch
-	cd $(_WRKSRC)/utils/bax2bam/build && \
+do-config: $(_WRKSRC)/build/Makefile
+$(_WRKSRC)/build/Makefile: | do-fetch
+	cd $(_WRKSRC)/build && \
         $(CMAKE) \
               -DBoost_INCLUDE_DIRS=$(BOOST_ROOT)/include \
               -DHDF5_RootDir=$(HDF5_ROOT) \
@@ -59,9 +59,9 @@ $(_WRKSRC)/utils/bax2bam/build/Makefile: | do-fetch
               -DPBDATA_LIBRARIES=$(PREFIX)/lib/libpbdata.$(DYLIB) \
         ..
 do-build:
-	$(MAKE) -C $(_WRKSRC)/utils/bax2bam/build
+	$(MAKE) -C $(_WRKSRC)/build
 do-test-bax2bam:
-	$(MAKE) -C $(_WRKSRC)/utils/bax2bam/build test
+	$(MAKE) -C $(_WRKSRC)/build test
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
 	cd $(_WRKSRC)/utils/bax2bam && tar cf - bin | tar xf - -C $(PREFIX)/
