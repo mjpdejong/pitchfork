@@ -64,7 +64,7 @@ do-test-bax2bam:
 	$(MAKE) -C $(_WRKSRC)/build test
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
-	cd $(_WRKSRC)/utils/bax2bam && tar cf - bin | tar xf - -C $(PREFIX)/
+	tar cf - bin | tar xf - -C $(PREFIX)/
 	cd $(PREFIX) && \
         find bin/bax2bam \
         > $@
