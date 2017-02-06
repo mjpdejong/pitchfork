@@ -4,7 +4,7 @@ include ../../../mk/pitchfork.mk
 include ../../../mk/chkcxx.mk
 
 # Local variables
-_NAME             = blasr
+_NAME             = bam2bax
 $(_NAME)_REPO    ?= git://github.com/PacificBiosciences/$(_NAME)
 _WRKSRC           = $(WORKDIR)/$(_NAME)
 $(_NAME)_VERSION ?= HEAD
@@ -13,10 +13,8 @@ ifeq ($(OPSYS),FreeBSD)
 MAKE            := $(MAKE) DL_LIBFLAGS=''
 endif
 ifneq ($(wildcard $(PREFIX)/lib/libsz.so),)
-HDF5_LIBFLAGS = -lhdf5_cpp -lhdf5 -lsz
 CMAKE_LDFLAGS = -lsz
 else
-HDF5_LIBFLAGS = -lhdf5_cpp -lhdf5
 CMAKE_LDFLAGS =
 endif
 ifneq ($(wildcard $(PREFIX)/lib/libpbbam.$(DYLIB)),)
@@ -30,7 +28,6 @@ CMAKE_LDFLAGS += -lpthread
 endif
 
 # Local works
-ifeq ($(origin HAVE_BLASR),undefined)
 do-extract:
 do-fetch: $(_WRKSRC)
 $(_WRKSRC):
@@ -40,79 +37,38 @@ ifeq ($(wildcard $($(_NAME)_REPO)),)
 else
 	ln -sfn $($(_NAME)_REPO) $(_WRKSRC)
 endif
-do-config: $(_WRKSRC)/defines.mk
-$(_WRKSRC)/defines.mk: | do-fetch
-	cd $(_WRKSRC) && \
-        $(SYSPYTHON) configure.py --shared \
-               PREFIX=$(PREFIX) \
-             HDF5_INC=$(HDF5_ROOT)/include \
-             HDF5_LIB=$(HDF5_ROOT)/lib \
-             ZLIB_LIB=$(ZLIB_ROOT) \
-            BOOST_INC=$(BOOST_ROOT)/include \
-        LIBPBDATA_INC=$(PREFIX)/include/pbdata \
-        LIBPBIHDF_INC=$(PREFIX)/include/hdf \
-         LIBBLASR_INC=$(PREFIX)/include/alignment \
-        LIBPBDATA_LIB=$(PREFIX)/lib \
-        LIBPBIHDF_LIB=$(PREFIX)/lib \
-         LIBBLASR_LIB=$(PREFIX)/lib \
-            PBBAM_INC=$(PREFIX)/include \
-            PBBAM_LIB=$(PREFIX)/lib \
-           HTSLIB_INC=$(PREFIX)/src/htslib/include \
-           HTSLIB_LIB=$(PREFIX)/src/htslib/lib
+do-config: $(_WRKSRC)/utils/bam2bax/build/Makefile
+$(_WRKSRC)/utils/bam2bax/build/Makefile: | do-fetch
+	mkdir -p $(_WRKSRC)/utils/bam2bax/build
+	cd $(_WRKSRC)/utils/bam2bax/build && \
+        $(CMAKE) \
+              -DBoost_INCLUDE_DIRS=$(BOOST_ROOT)/include \
+              -DHDF5_RootDir=$(HDF5_ROOT) \
+              -DPacBioBAM_INCLUDE_DIRS=$(PREFIX)/include \
+              -DPacBioBAM_LIBRARIES=$(PacBioBAM_LIBRARIES) \
+              -DHTSLIB_INCLUDE_DIRS=$(PREFIX)/src/htslib/include \
+              -DHTSLIB_LIBRARIES=$(PREFIX)/src/htslib/lib/libhts.a \
+              -DGTEST_SRC_DIR=$(PREFIX)/src/gtest \
+              -DZLIB_LIBRARIES=$(ZLIB_ROOT)/lib/libz.$(DYLIB) \
+              -DZLIB_INCLUDE_DIRS=$(ZLIB_ROOT)/include \
+              -DBam2Bax_EXE_LINKER_FLAGS="$(CMAKE_LDFLAGS)" \
+              -DBLASR_INCLUDE_DIRS=$(PREFIX)/include/alignment \
+              -DPBIHDF_INCLUDE_DIRS=$(PREFIX)/include/hdf \
+              -DPBDATA_INCLUDE_DIRS=$(PREFIX)/include/pbdata \
+              -DBLASR_LIBRARIES=$(PREFIX)/lib/libblasr.$(DYLIB) \
+              -DPBIHDF_LIBRARIES=$(PREFIX)/lib/libpbihdf.$(DYLIB) \
+              -DPBDATA_LIBRARIES=$(PREFIX)/lib/libpbdata.$(DYLIB) \
+        ..
 do-build:
-ifneq ($(wildcard $(PREFIX)/lib/libsz.so),)
-	$(MAKE) -C $(_WRKSRC) blasr HDF5_LIBFLAGS="$(HDF5_LIBFLAGS)"
-	$(MAKE) -C $(_WRKSRC)/utils HDF5_LIBFLAGS="$(HDF5_LIBFLAGS)"
-else
-	$(MAKE) -C $(_WRKSRC) blasr
-	$(MAKE) -C $(_WRKSRC)/utils
-endif
+	$(MAKE) -C $(_WRKSRC)/utils/bam2bax/build
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
-	cd $(_WRKSRC) && tar cf - blasr | tar xf - -C $(PREFIX)/bin/
-	cd $(_WRKSRC)/utils && tar cf - loadPulses pls2fasta sawriter | tar xf - -C $(PREFIX)/bin/
-	cd $(_WRKSRC)/utils && tar cf - samFilter samtoh5 samtom4 sdpMatcher toAfg | tar xf - -C $(PREFIX)/bin/
+	cd $(_WRKSRC)/utils/bam2bax && tar cf - bin | tar xf - -C $(PREFIX)/
 	cd $(PREFIX) && \
-        find bin/blasr      \
-             bin/loadPulses \
-             bin/pls2fasta  \
-             bin/sawriter   \
-             bin/samFilter  \
-             bin/samtoh5    \
-             bin/samtom4    \
-             bin/sdpMatcher \
-             bin/toAfg      \
+        find bin/bam2bax \
+             bin/bam2plx \
         > $@
 	@echo "# $(_REVISION)" >> $@
-else
-ifeq ($(wildcard $(HAVE_BLASR)/bin/blasr),)
-    $(error $(HAVE_BLASR)/bin/blasr not find)
-endif
-do-install: $(PREFIX)/var/pkg/$(_NAME)
-$(PREFIX)/var/pkg/$(_NAME):
-	cd $(HAVE_BLASR)/bin && \
-        tar cf - blasr      \
-                 loadPulses \
-                 pls2fasta  \
-                 sawriter   \
-                 samFilter  \
-                 samtoh5    \
-                 samtom4    \
-                 sdpMatcher \
-                 toAfg      \
-        | tar xf - -C $(PREFIX)/bin/
-	cd $(PREFIX) && \
-        find bin/blasr      \
-             bin/loadPulses \
-             bin/pls2fasta  \
-             bin/sawriter   \
-             bin/samFilter  \
-             bin/samtoh5    \
-             bin/samtom4    \
-             bin/sdpMatcher \
-             bin/toAfg      \
-        > $@
-endif
 do-clean:
 	$(MAKE) -C $(_WRKSRC) clean
 do-distclean:
