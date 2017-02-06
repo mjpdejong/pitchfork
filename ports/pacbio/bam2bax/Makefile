@@ -61,6 +61,8 @@ $(_WRKSRC)/utils/bam2bax/build/Makefile: | do-fetch
         ..
 do-build:
 	$(MAKE) -C $(_WRKSRC)/utils/bam2bax/build
+do-test-bam2bax:
+	$(MAKE) -C $(_WRKSRC)/utils/bam2bax/build test
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
 	cd $(_WRKSRC)/utils/bam2bax && tar cf - bin | tar xf - -C $(PREFIX)/
