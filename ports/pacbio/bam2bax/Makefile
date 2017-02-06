@@ -65,7 +65,7 @@ do-test-bam2bax:
 	$(MAKE) -C $(_WRKSRC)/build test
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
-	tar cf - bin | tar xf - -C $(PREFIX)/
+	cd $(_WRKSRC) && tar cf - bin | tar xf - -C $(PREFIX)/
 	cd $(PREFIX) && \
         find bin/bam2bax \
              bin/bam2plx \
