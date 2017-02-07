@@ -27,6 +27,7 @@ do-build:
             ZLIB_ROOT=$(ZLIB_ROOT) \
                CFLAGS="$(CFLAGS) -Wall -O2 -Wno-unused-function" \
               LDFLAGS="$(LDFLAGS)" \
+      PACKAGE_VERSION="1.1" \
         >& build.log || $(PFHOME)/bin/diewith build.log
 do-install: $(PREFIX)/var/pkg/$(_NAME)
 $(PREFIX)/var/pkg/$(_NAME): | do-build
