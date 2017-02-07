@@ -458,7 +458,7 @@ test-pbfalcon: pbfalcon nose pbreports
 test-bam2bax: bam2bax
 	$(MAKE) -C ports/pacbio/bam2bax do-test-bam2bax
 test-bax2bam: bax2bam
-	$(MAKE) -C ports/pacbio/bam2bax do-test-bax2bam
+	$(MAKE) -C ports/pacbio/bax2bam do-test-bax2bam
 test-falcon_polish: falcon_polish nose
 	$(MAKE) -C ports/pacbio/falcon_polish do-test
 
