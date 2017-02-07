@@ -12,5 +12,5 @@ make init
 #                20 Gb disk space including the container
 make -l 2 reseq-core
 make -l 2 pbfalcon
-make -l 2 bam2bax bax2bam
+make -l 2 bax2bam
 #make -l 2 smrtflow
