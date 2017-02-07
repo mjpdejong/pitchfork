@@ -39,6 +39,7 @@ else
 endif
 do-config: $(_WRKSRC)/build/Makefile
 $(_WRKSRC)/build/Makefile: | do-fetch
+	mkdir -p $(_WRKSRC)/build
 	cd $(_WRKSRC)/build && \
         $(CMAKE) \
               -DBoost_INCLUDE_DIRS=$(BOOST_ROOT)/include \
