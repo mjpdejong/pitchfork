@@ -43,7 +43,9 @@ $(PREFIX)/var/pkg/$(_NAME):
 	mkdir -p $(STAGING)/$(_NAME)/bin
 	mkdir -p $(STAGING)/$(_NAME)/share/man/man1
 	cp -aL $(HAVE_SAMTOOLS)/bin/samtools $(STAGING)/$(_NAME)/bin/
-	cp -aL $(HAVE_SAMTOOLS)/share/man/man1/samtools.1 $(STAGING)/$(_NAME)/share/man/man1/
+	test -e $(HAVE_SAMTOOLS)/share/man/man1/samtools.1 && \
+        cp -aL $(HAVE_SAMTOOLS)/share/man/man1/samtools.1 $(STAGING)/$(_NAME)/share/man/man1/ || \
+        true
 	cd $(STAGING)/$(_NAME) && tar cf - * | tar xf - -C $(PREFIX)
 	find $(STAGING)/$(_NAME) ! -type d|awk -F '$(STAGING)/$(_NAME)/' '{print $$2}' > $@
 endif

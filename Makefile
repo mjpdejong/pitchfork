@@ -111,6 +111,8 @@ PuLP:         pip
 htslib:       ccache zlib
 blasr_libcpp: ccache boost hdf5 pbbam
 blasr:        ccache blasr_libcpp hdf5 cmake
+bax2bam:      ccache blasr_libcpp hdf5 cmake
+bam2bax:      ccache blasr_libcpp hdf5 cmake
 pbbam:        ccache samtools cmake boost htslib gtest
 dazzdb:       ccache
 daligner:     ccache dazzdb
@@ -151,8 +153,6 @@ PacBioTestData:    pip
 # end of dependencies
 
 # meta rules
-bam2bax: blasr
-bax2bam: blasr
 reseq-core: \
        pbsmrtpipe pbalign blasr pbreports GenomicConsensus pbbam pbcoretools unanimity
 isoseq-core: \
@@ -329,6 +329,10 @@ blasr_libcpp:
 	$(MAKE) -C ports/pacbio/$@ ${RULE}
 blasr:
 	$(MAKE) -C ports/pacbio/$@ ${RULE}
+bax2bam:
+	$(MAKE) -C ports/pacbio/$@ ${RULE}
+bam2bax:
+	$(MAKE) -C ports/pacbio/$@ ${RULE}
 htslib:
 	$(MAKE) -C ports/pacbio/$@ ${RULE}
 seqan:
@@ -451,10 +455,10 @@ test-pbdagcon: pbdagcon
 	$(MAKE) -C ports/pacbio/pbdagcon do-test
 test-pbfalcon: pbfalcon nose pbreports
 	$(MAKE) -C ports/pacbio/pbfalcon do-test
-test-bam2bax: blasr
-	$(MAKE) -C ports/pacbio/blasr do-test-bam2bax
-test-bax2bam: blasr
-	$(MAKE) -C ports/pacbio/blasr do-test-bax2bam
+test-bam2bax: bam2bax
+	$(MAKE) -C ports/pacbio/bam2bax do-test-bam2bax
+test-bax2bam: bax2bam
+	$(MAKE) -C ports/pacbio/bax2bam do-test-bax2bam
 test-falcon_polish: falcon_polish nose
 	$(MAKE) -C ports/pacbio/falcon_polish do-test
 
