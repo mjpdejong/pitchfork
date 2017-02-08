@@ -26,6 +26,10 @@ zlib:             ccache
 boost:            ccache
 ifeq ($(origin HAVE_PYTHON),undefined)
 python:           ccache zlib openssl ncurses readline
+else ifneq ($(origin HAVE_OPENSSL),undefined)
+python:           openssl
+else ifneq ($(origin HAVE_LIBSSL),undefined)
+python:           openssl
 endif
 readline:         ccache ncurses
 samtools:         ccache zlib ncurses
