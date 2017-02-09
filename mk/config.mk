@@ -28,7 +28,11 @@ SCCACHE_DIR?= $(PFHOME)/.git/sccache
 PIP_CACHE  ?= $(PFHOME)/.git/pip
 DISTFILES  ?= $(PFHOME)/distfiles
 
+ifeq ($(origin HAVE_PYTHON),undefined)
 PIP         = $(PREFIX)/bin/pip --cache-dir $(PIP_CACHE)
+else
+PIP         = LDSHARED="$(CC) -shared" AR="$(shell $(CC) --print-prog-name=ar)" $(PREFIX)/bin/pip --cache-dir $(PIP_CACHE)
+endif
 
 ifeq ($(shell test -x "$(HAVE_CMAKE)" && echo -n yes || true),yes)
 CMAKE = $(HAVE_CMAKE)
