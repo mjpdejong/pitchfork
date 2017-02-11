@@ -1,15 +1,14 @@
 include ../../../mk/pitchfork.mk
 
-ifeq ($(origin GHTOKEN),undefined)
-    $(error "You need to set GHTOKEN")
-endif
-
 # Local variables
 _NAME             = pblaa
-$(_NAME)_REPO    ?= https://$(GHTOKEN)@github.com/PacificBiosciences/$(_NAME)
 _WRKSRC           = $(WORKDIR)/$(_NAME)
 $(_NAME)_VERSION ?= HEAD
 _REVISION         = $(shell cd $(_WRKSRC) && $(GIT) rev-parse --short $($(_NAME)_VERSION) || true)
+
+ifeq ($(origin $(_NAME)_REPO),undefined)
+    $(error "You need to set $(_NAME)_REPO")
+endif
 
 # Local works
 do-fetch: $(_WRKSRC)
@@ -42,6 +41,8 @@ $(_WRKSRC)/_build/Makefile: | do-fetch
             -DPacBioLAA_UNY=$(_WRKSRC)/../unanimity \
             -DCMAKE_BUILD_TYPE=RelWithDebInfo \
             -DCMAKE_SKIP_BUILD_RPATH=TRUE \
+            -Dpbcopper_INCLUDE_DIRS=$(PREFIX)/include \
+            -Dpbcopper_LIBRARIES=$(PREFIX)/lib/libpbcopper.a \
             ..
 do-build: $(_WRKSRC)/bin/laa
 $(_WRKSRC)/bin/laa: | do-config
