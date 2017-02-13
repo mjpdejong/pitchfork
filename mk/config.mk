@@ -24,10 +24,10 @@ WORKDIR    ?= $(PFHOME)/workspace
 PREFIX     ?= $(PFHOME)/deployment
 STAGING    ?= $(PFHOME)/staging
 CCACHE_DIR ?= $(PFHOME)/.git/ccache
-CCACHE_BASEDIR := $(WORKDIR)
 SCCACHE_DIR?= $(PFHOME)/.git/sccache
 PIP_CACHE  ?= $(PFHOME)/.git/pip
 DISTFILES  ?= $(PFHOME)/distfiles
+CCACHE_BASEDIR := $(PFHOME)
 
 ifeq ($(origin HAVE_PYTHON),undefined)
 PIP         = $(PREFIX)/bin/pip --cache-dir $(PIP_CACHE)
